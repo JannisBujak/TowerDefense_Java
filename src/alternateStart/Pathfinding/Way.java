@@ -23,4 +23,56 @@ public class Way {
 
         return null;
     }
+    /*
+    vector<Field*> forbiddenFieldsCopy = Way::copyFieldVector(forbiddenFields);
+	forbiddenFieldsCopy.push_back(l->getFieldAt(p));
+
+
+	vector<Position*> testedPositions = Labyrinth::getOptimumFollowingPoints(p, l->getUniqueField('E'));
+
+	vector<Way*> possibleWays;
+
+	for(Position* pos : testedPositions){
+
+		int sizeOfTheActualLine = l->getFieldAt(pos->getY()).size();
+
+		if(pos->getX() < 0 || pos->getX() >= sizeOfTheActualLine || pos->getY() < 0 || pos->getY() >= l->getHeight()){
+			delete(pos);
+			continue;
+		}
+		if(Way::isInFieldVector(l->getFieldAt(pos), forbiddenFields)){
+			delete(pos);
+			continue;
+		}
+
+		Way* potentialWay = findShortestWay(pos, l, forbiddenFieldsCopy);
+		if(potentialWay == nullptr){
+			delete(pos);
+			continue;
+		}
+		possibleWays.push_back(potentialWay);
+
+		delete(pos);
+	}
+
+	int length = - 1;
+	Way* returnWay = nullptr;
+	for(Way* way : possibleWays){
+		int lengthFromHere = way->getLengthFromHere();
+		if(lengthFromHere < length || length == -1){
+			length = lengthFromHere;
+			delete(returnWay);
+			returnWay = way;
+		}else{
+			delete(way);
+		}
+	}
+
+	if(length == -1 || returnWay == nullptr){
+		return nullptr;
+	}
+	Way* thisWay = new Way(fieldAtP);
+	thisWay->appendWay(returnWay);
+	return thisWay;
+     */
 }

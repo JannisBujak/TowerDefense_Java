@@ -21,4 +21,7 @@ public class Position {
         return (x == p.getX() && y == p.getY());
     }
 
+    public void print() {
+        System.out.println("(" + x + " | " + y + ")");
+    }
 }

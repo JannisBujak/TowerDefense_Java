@@ -1,10 +1,14 @@
 package alternateStart;
 import alternateStart.Pathfinding.*;
 
+import java.util.ArrayList;
+
 public class Attacker {
     private Way way;
 
-    Attacker(Position start, Position finisch){
-        this.way = Way.getShortestWay(start, finisch);
+    Attacker(TowerDefense td, Position start, Position destination){
+        this.way = Way.getShortestWay(td, start, destination, new ArrayList<>());
+        System.out.println("Came out");
+        this.way.print();
     }
 }

@@ -1,13 +1,16 @@
 package alternateStart;
 
+import alternateStart.Pathfinding.Position;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class TowerDefense extends Application {
@@ -27,8 +30,6 @@ public class TowerDefense extends Application {
     public static  double X_UNIT = SCENE_WIDTH / NUMBER_OF_X_FIELDS;
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
-
-
     @Override
     public void start(Stage window) throws Exception {
 
@@ -45,6 +46,7 @@ public class TowerDefense extends Application {
 
         //initField(allFields, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
 
+        Attacker a = new Attacker(this, new Position(0, 0), new Position(5, 2));
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -59,15 +61,122 @@ public class TowerDefense extends Application {
 
     }
 
+    public static List<Position> getOptimumFollowingPoints(Position start, Position destination) {
+
+        //start.print();
+        int xDistance = destination.getX() - start.getX();
+        int yDistance = destination.getY() - start.getY();
+        int xDirection, yDirection;
+        if(xDistance == 0){
+            xDirection = 0;
+        }else{
+            xDirection = xDistance/Math.abs(xDistance);
+        }
+
+        if(yDistance == 0){
+            yDirection = 0;
+        }else{
+            yDirection = yDistance/Math.abs(yDistance);
+        }
+
+        List<Position> aims = new ArrayList<>();
+
+        if(Math.abs(Math.sqrt(xDistance + yDistance)) > Math.abs(xDistance)
+                && Math.abs(Math.sqrt(xDistance + yDistance)) > Math.abs(yDistance)){
+
+            //Punkt diagonal vom Start
+            aims.add(new Position(start.getX() + xDirection, start.getY() + yDirection));
+
+            if(xDistance > yDistance){
+                aims.add(new Position(start.getX() + xDirection, start.getY()));
+                aims.add(new Position(start.getX(), start.getY() + yDirection));
+
+                aims.add(new Position(start.getX() + xDirection, start.getY() - yDirection));
+                aims.add(new Position(start.getX() - xDirection, start.getY() + yDirection));
+
+                aims.add(new Position(start.getX(), start.getY() - yDirection));
+                aims.add(new Position(start.getX() - xDirection, start.getY()));
+            }else{
+                aims.add(new Position(start.getX(), start.getY() + yDirection));
+                aims.add(new Position(start.getX() + xDirection, start.getY()));
+
+                aims.add(new Position(start.getX() + xDirection, start.getY() - yDirection));
+                aims.add(new Position(start.getX() - xDirection, start.getY() + yDirection));
+
+                aims.add(new Position(start.getX() - xDirection, start.getY()));
+                aims.add(new Position(start.getX(), start.getY() - yDirection));
+            }
+
+            aims.add(new Position(start.getX() - xDirection, start.getY() - yDirection));
+
+
+        }else if(xDistance > yDistance){
+
+            //Punkt rechts/links vom Start
+
+            aims.add(new Position(start.getX() + xDirection, start.getY()));
+
+            aims.add(new Position(start.getX() + xDirection, start.getY() + yDirection));
+            aims.add(new Position(start.getX() + xDirection, start.getY() - yDirection));
+
+            aims.add(new Position(start.getX(), start.getY() + yDirection));
+            aims.add(new Position(start.getX(), start.getY() - yDirection));
+
+            aims.add(new Position(start.getX() - xDirection, start.getY() - yDirection));
+            aims.add(new Position(start.getX() - xDirection, start.getY() + yDirection));
+
+            aims.add(new Position(start.getX() - xDirection, start.getY()));
+
+
+        }else{
+
+            //Punkt ober-/unterhalb vom Start
+            aims.add(new Position(start.getX(), start.getY() + yDirection));
+
+            aims.add(new Position(start.getX() + xDirection, start.getY() + yDirection));
+            aims.add(new Position(start.getX() - xDirection, start.getY() + yDirection));
+
+            aims.add(new Position(start.getX() + xDirection, start.getY()));
+            aims.add(new Position(start.getX() - xDirection, start.getY()));
+
+            aims.add(new Position(start.getX() - xDirection, start.getY() - yDirection));
+            aims.add(new Position(start.getX() + xDirection, start.getY() - yDirection));
+
+            aims.add(new Position(start.getX(), start.getY() - yDirection));
+
+        }
+        for(int i = 0; i < aims.size(); i++){
+            Position p = aims.get(i);
+            if(p.equals(start)){
+                aims.remove(p);
+                i--;
+            }
+        }
+        return aims;
+    }
+
+
 
     public void Update(){
 
 
     }
 
-     public static Field getFieldAt(int x, int y){
+     public Field getFieldAt(int x, int y){
         return field.get(y).get(x);
 
+    }
+
+    public Field getFieldAt(Position p){
+        return field.get(p.getY()).get(p.getX());
+    }
+
+    public ArrayList<Field> getLine(int y){
+        return field.get(y);
+    }
+
+    public int getFieldHeight(){
+        return field.size();
     }
 
     public static void main(String[] args){

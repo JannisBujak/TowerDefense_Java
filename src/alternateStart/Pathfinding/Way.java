@@ -47,6 +47,8 @@ public class Way {
     private static boolean alreadySteppedOn(Position p, List<Field> forbiddenFields) {
         for(Field f : forbiddenFields){
             if(p.equals(f)){
+                p.print();
+                f.print();
                 return true;
             }
         }
@@ -58,12 +60,12 @@ public class Way {
         if(fieldAtP.isTower()){
             return null;
         }
-        //start.print();
-        //destination.print();
-        //System.out.println();
-
+        /*
+        start.print();
+        destination.print();
+        System.out.println();
+        */
         if(start.equals(destination)){
-            System.out.println("Arrived");
             return new Way(fieldAtP);
         }
 
@@ -75,10 +77,11 @@ public class Way {
         List<Way> possibleWays = new ArrayList<>();
         for(Position p : testedPositions){
             int sizeOfTheActualLine = td.getLine(p.getY()).size();
-            if(p.getX() < 0 || p.getX() >= sizeOfTheActualLine || p.getY() < 0 || p.getY() >= td.getFieldHeight() || p == null){
+            if(p.getX() < 0 || p.getX() >= sizeOfTheActualLine || p.getY() < 0 || p.getY() >= td.getFieldHeight()){
                 continue;
             }
             if(alreadySteppedOn(p, forbiddenFields)){
+                System.out.println("Yep");
                 continue;
             }
             Way potentialWay = getShortestWay(td, p, destination, forbiddenFieldsCopy);
@@ -87,6 +90,7 @@ public class Way {
             }
             possibleWays.add(potentialWay);
         }
+
 
         int length = - 1;
         Way returnWay = null;

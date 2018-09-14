@@ -22,13 +22,13 @@ public class TowerDefense extends Application {
     //ArrayList<Attackers> attackers = new ArrayList<>();
     //ArrayList<Attackers> attackers = new ArrayList<>();
 
-    static double SCENE_WIDTH = 1200;
-    static double SCENE_HEIGHT = 800;
-    static double NUMBER_OF_X_FIELDS = 24;
-    static double NUMBER_OF_Y_FIELDS = 16;
+    private static double SCENE_WIDTH = 1200;
+    private static double SCENE_HEIGHT = 800;
+    private static double NUMBER_OF_X_FIELDS = 24;
+    private static double NUMBER_OF_Y_FIELDS = 16;
     public static double MOVEMENT_SPEED = 2;
-    public static  double X_UNIT = SCENE_WIDTH / NUMBER_OF_X_FIELDS;
-    public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
+    private static  double X_UNIT = SCENE_WIDTH / NUMBER_OF_X_FIELDS;
+    private static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
     @Override
     public void start(Stage window) throws Exception {
@@ -172,7 +172,11 @@ public class TowerDefense extends Application {
     }
 
     public ArrayList<Field> getLine(int y){
-        return field.get(y);
+        if(y < field.size()){
+            return field.get(y);
+        }else{
+            return new ArrayList<>();
+        }
     }
 
     public int getFieldHeight(){

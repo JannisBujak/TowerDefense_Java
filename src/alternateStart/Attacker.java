@@ -9,6 +9,10 @@ public class Attacker {
     Attacker(TowerDefense td, Position start, Position destination){
         this.way = Way.getShortestWay(td, start, destination, new ArrayList<>());
         System.out.println("Came out");
-        this.way.print();
+        if(this.way != null){
+            this.way.print();
+        }else{
+            System.out.println("null");
+        }
     }
 }

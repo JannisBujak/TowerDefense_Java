@@ -45,6 +45,7 @@ public class Way {
     }
 
     private static boolean alreadySteppedOn(Position p, List<Field> forbiddenFields) {
+        //TODO: check functionality
         for(Field f : forbiddenFields){
             if(p.equals(f)){
                 p.print();

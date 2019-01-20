@@ -186,4 +186,8 @@ public class TowerDefense extends Application {
     public static void main(String[] args){
         launch(args);
     }
+
+    public boolean inBounds(int x, int y) {
+        return y >= 0 && y <field.size() && x >= 0 && x < field.get(y).size();
+    }
 }

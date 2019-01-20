@@ -4,13 +4,17 @@ import alternateStart.Pathfinding.*;
 import java.util.ArrayList;
 
 public class Attacker {
-    private Way way;
+    private Path path;
 
     Attacker(TowerDefense td, Position start, Position destination){
-        this.way = Way.getShortestWay(td, start, destination, new ArrayList<>());
-        System.out.println("Came out");
-        if(this.way != null){
-            this.way.print();
+
+        path = new Path(start, destination, td);
+
+        path.update();
+
+        System.out.println("Way up to date");
+        if(this.path != null){
+            this.path.print();
         }else{
             System.out.println("null");
         }

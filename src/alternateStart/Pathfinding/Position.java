@@ -9,10 +9,18 @@ public class Position {
         this.y = y;
     }
 
+    public Position(Position p){
+        this.x = p.getX();
+        this.y = p.getY();
+    }
+
+    public boolean neighbour(Position cmp){
+        return (cmp.getX() >= x - 1 && cmp.getX() <= x + 1 && cmp.getY() >= y - 1 && cmp.getY() <= y + 1);
+    }
+
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }

@@ -1,4 +1,6 @@
-package alternateStart.Pathfinding;
+package Pathfinding;
+
+
 
 public class Waypoint extends Position{
     private double gCost, hCost, fCost;
@@ -19,7 +21,7 @@ public class Waypoint extends Position{
         fCost = gCost + hCost;
     }
 
-    public double getfCost() {
+    public double getFCost() {
         return fCost;
     }
 }

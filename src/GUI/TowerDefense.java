@@ -1,3 +1,5 @@
+package GUI;
+import Pathfinding.Position;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -7,12 +9,19 @@ import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 
+import Objects.*;
 
 public class TowerDefense extends Application {
 
     Pane root;
-    ArrayList<Field> allFields = new ArrayList<>();
+    ArrayList< ArrayList<Field>> allFields = new ArrayList<>();
+    ArrayList<TDField> allTDFields = new ArrayList<>();
     ArrayList<Attacker> allAttackers = new ArrayList<>();
+
+    Position spawn = new Position(1, 1);
+    Position globalAim = new Position(20, 12);
+
+
 
     static double SCENE_WIDTH = 1200;
     static double SCENE_HEIGHT = 800;
@@ -23,7 +32,6 @@ public class TowerDefense extends Application {
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
 
-
     @Override
     public void start(Stage window) throws Exception {
 
@@ -31,15 +39,13 @@ public class TowerDefense extends Application {
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
 
 
-        initField(allFields, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
+        initField(this, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
 
-        Way asWay = new Way(0, 0);
-        asWay.add(new Way(7 * X_UNIT, 0 * Y_UNIT));
-        asWay.add(new Way(7 * X_UNIT, 5 * Y_UNIT));
+        Attacker a1 = new Attacker(this, spawn, globalAim);
+        allAttackers.add(a1);
+        root.getChildren().add(a1);
 
-        Attacker a = new Attacker(X_UNIT / 2, Y_UNIT / 2, X_UNIT / 2, Y_UNIT / 2, Color.RED, this);
-        allAttackers.add(a);
-        root.getChildren().add(a);
+
 
         AnimationTimer timer = new AnimationTimer() {
             @Override
@@ -54,10 +60,13 @@ public class TowerDefense extends Application {
 
     }
 
-    public static void initField(ArrayList<Field> fields, Pane root, double numberOfXFields, double numberOfYFields){
+    public static void initField(TowerDefense td, Pane root, double numberOfXFields, double numberOfYFields){
+
         double xSize = SCENE_WIDTH / numberOfXFields;
         double ySize = SCENE_HEIGHT / numberOfYFields;
+
         for(int x = 0; x < numberOfXFields; x++) {
+            ArrayList<Field> row = new ArrayList<>();
             for (int y = 0; y < numberOfYFields; y++) {
 
                 Color color;
@@ -66,15 +75,57 @@ public class TowerDefense extends Application {
                 }else{
                     color = Color.WHITE.darker();
                 }
-                Field f = new Field(x * xSize, y * ySize, xSize, ySize, color);
-                fields.add(f);
-                root.getChildren().add(f);
+                TDField TDField  = new TDField(x * xSize, y * ySize, xSize, ySize, color);
+
+                Field field = new Field(x, y);
+                row.add(field);
+
+                td.getAllTDFields().add(TDField);
+                root.getChildren().add(TDField);
             }
+            td.getAllFields().add(row);
+        }
+    }
+
+    private ArrayList<TDField> getAllTDFields() {
+        return allTDFields;
+    }
+
+    private ArrayList<ArrayList<Field>> getAllFields() {
+        return allFields;
+    }
+
+    public Field getFieldAt(int x, int y) {
+        if(y < 0 || y >= allFields.size() || x < 0 || x >= allFields.get(y).size())
+            return null;
+        else
+            return allFields.get(y).get(x);
+    }
+
+    public Position getSpawn() {
+        return spawn;
+    }
+
+    public Position getGlobalAim() {
+        return globalAim;
+    }
+
+    public boolean inBounds(int x, int y) {
+        return ((y >= 0 && y < allFields.size()) && (x >= 0 && x < allFields.get(y).size()));
+    }
+
+    public void printBoard(){
+        for(ArrayList<Field> list : allFields){
+            for(Field f : list){
+                System.out.print("1 ");
+            }
+
+            System.out.println();
         }
     }
 
     public void Update(){
-        for (Attacker a : allAttackers){
+        /*for (Attacker a : allAttackers){
             if(!a.reachedEnd()){
                 a.update();
             }
@@ -82,8 +133,7 @@ public class TowerDefense extends Application {
         for (Field f : allFields){
             f.update();
         }
-
-
+        */
     }
 
     public static void main(String[] args){

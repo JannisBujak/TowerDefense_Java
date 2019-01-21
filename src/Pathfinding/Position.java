@@ -1,4 +1,4 @@
-package alternateStart.Pathfinding;
+package Pathfinding;
 
 public class Position {
 

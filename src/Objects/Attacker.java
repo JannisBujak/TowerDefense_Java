@@ -1,10 +1,16 @@
-import Pathfinding.*;
+package Objects;
 
-public class Attacker {
+import Objects.*;
+
+import Pathfinding.*;
+import GUI.TowerDefense;
+import javafx.scene.shape.Ellipse;
+
+public class Attacker extends Ellipse {
 
     private Path path;
 
-    Attacker(TowerDefense td, Position start, Position destination){
+    public Attacker(TowerDefense td, Position start, Position destination){
 
         path = new Path(start, destination, td);
 

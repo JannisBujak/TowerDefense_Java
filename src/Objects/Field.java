@@ -1,6 +1,4 @@
-package alternateStart;
-
-import alternateStart.Pathfinding.Position;
+import Pathfinding.Position;
 
 public class Field extends Position{
 

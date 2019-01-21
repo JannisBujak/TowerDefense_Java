@@ -37,7 +37,7 @@ public class TowerDefense extends Application {
         asWay.add(new Way(7 * X_UNIT, 0 * Y_UNIT));
         asWay.add(new Way(7 * X_UNIT, 5 * Y_UNIT));
 
-        Attacker a = new Attacker(X_UNIT / 2, Y_UNIT / 2, X_UNIT / 2, Y_UNIT / 2, Color.RED, asWay);
+        Attacker a = new Attacker(X_UNIT / 2, Y_UNIT / 2, X_UNIT / 2, Y_UNIT / 2, Color.RED, this);
         allAttackers.add(a);
         root.getChildren().add(a);
 

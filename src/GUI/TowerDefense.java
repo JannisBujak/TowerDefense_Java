@@ -19,7 +19,7 @@ public class TowerDefense extends Application {
     ArrayList<Attacker> allAttackers = new ArrayList<>();
 
     Position spawn = new Position(1, 1);
-    Position globalAim = new Position(20, 12);
+    Position globalAim = new Position(20, 15);
 
 
 
@@ -65,9 +65,9 @@ public class TowerDefense extends Application {
         double xSize = SCENE_WIDTH / numberOfXFields;
         double ySize = SCENE_HEIGHT / numberOfYFields;
 
-        for(int x = 0; x < numberOfXFields; x++) {
+        for(int y = 0; y < numberOfYFields; y++) {
             ArrayList<Field> row = new ArrayList<>();
-            for (int y = 0; y < numberOfYFields; y++) {
+            for (int x = 0; x < numberOfXFields; x++) {
 
                 Color color;
                 if((x + y) % 2 == 0){
@@ -125,15 +125,19 @@ public class TowerDefense extends Application {
     }
 
     public void Update(){
-        /*for (Attacker a : allAttackers){
+        for (Attacker a : allAttackers){
             if(!a.reachedEnd()){
                 a.update();
             }
         }
-        for (Field f : allFields){
-            f.update();
+        for (ArrayList<Field> row : allFields){
+            for(Field f : row){
+                //TODO: write
+
+                // f.update();
+            }
         }
-        */
+
     }
 
     public static void main(String[] args){

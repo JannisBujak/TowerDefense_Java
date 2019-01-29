@@ -18,10 +18,12 @@ public class Path {
         this.board = board;
     }
 
+
     public void print(){
+
         System.out.println("\n");
         for(Waypoint w : fields){
-            w.print();
+          w.print();
         }
     }
 
@@ -37,9 +39,15 @@ public class Path {
 
         while(true){
 
+            System.out.println("P to be surr");
+            for(Waypoint w : pointsToBeSurrounded){
+                w.print();
+            }
+            System.out.println("Edge points");
             for(Waypoint w : edgePoints){
                 w.print();
             }
+
             System.out.println();
             double smallestFCost = -1;
             for(Waypoint w : edgePoints){
@@ -64,8 +72,11 @@ public class Path {
                     for(int x = w.getX() - 1; x <= w.getX() + 1; x++){
                         if(x == w.getX() && y == w.getY())  continue;
 
+                        if(!board.inBounds(x, y))   {
+                            System.out.println("Mistake for (" + x + " | " + y + ")");
+                            continue;
+                        }
                         Position p = new Position(x, y);
-                        if(!board.inBounds(x, y))   continue;
 
                         if(aim.equals(p)){
                             System.out.println("Found");
@@ -138,5 +149,13 @@ public class Path {
                 break;
             }
         }
+    }
+
+    public Position getAim() {
+        return aim;
+    }
+
+    public Position getLast() {
+        return fields.get(fields.size() - 1);
     }
 }

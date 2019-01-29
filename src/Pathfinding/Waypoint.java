@@ -16,7 +16,7 @@ public class Waypoint extends Position{
         if(aim == null){
             hCost = 0;
         }else{
-            hCost = Math.sqrt(Math.abs(aim.getX() - pos.getX() + aim.getY() - pos.getY()));
+            hCost = Math.sqrt(Math.pow(aim.getX() - pos.getX(), 2) + Math.pow(aim.getY() - pos.getY(), 2));
         }
         fCost = gCost + hCost;
     }

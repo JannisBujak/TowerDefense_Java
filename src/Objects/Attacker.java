@@ -8,9 +8,15 @@ import javafx.scene.shape.Ellipse;
 
 public class Attacker extends Ellipse {
 
+    private Position pos;
     private Path path;
 
     public Attacker(TowerDefense td, Position start, Position destination){
+        super(TowerDefense.X_UNIT / 2, TowerDefense.Y_UNIT / 2);
+        setCenterX(getTranslateX() + TowerDefense.X_UNIT / 2);
+        setTranslateY(getTranslateY() + TowerDefense.Y_UNIT / 2);
+
+        pos = start;
 
         path = new Path(start, destination, td);
 
@@ -22,5 +28,14 @@ public class Attacker extends Ellipse {
         }else{
             System.out.println("null");
         }
+    }
+
+    public boolean reachedEnd() {
+        return this.path.getAim().equals(new Position((int)getCenterX(), (int)getCenterY()));
+    }
+
+    public void update() {
+        Position next = path.getLast();
+
     }
 }

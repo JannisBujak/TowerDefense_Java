@@ -18,8 +18,6 @@ public class TowerDefense extends Application {
     ArrayList<TDField> allTDFields = new ArrayList<>();
     ArrayList<Attacker> allAttackers = new ArrayList<>();
 
-    Position spawn = new Position(1, 1);
-    Position globalAim = new Position(20, 15);
 
 
 
@@ -31,6 +29,8 @@ public class TowerDefense extends Application {
     public static  double X_UNIT = SCENE_WIDTH / NUMBER_OF_X_FIELDS;
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
+    Position spawn = new Position(0, 0);
+    Position globalAim = new Position(20, 15);
 
     @Override
     public void start(Stage window) throws Exception {

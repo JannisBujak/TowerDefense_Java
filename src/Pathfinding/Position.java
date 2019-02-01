@@ -1,5 +1,7 @@
 package Pathfinding;
 
+import Objects.Vector;
+
 public class Position {
 
     private int x, y;
@@ -16,6 +18,19 @@ public class Position {
 
     public boolean neighbour(Position cmp){
         return (cmp.getX() >= x - 1 && cmp.getX() <= x + 1 && cmp.getY() >= y - 1 && cmp.getY() <= y + 1);
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void moveInDirection(Vector v){
+        this.x += v.getX();
+        this.y += v.getY();
     }
 
     public int getX() {

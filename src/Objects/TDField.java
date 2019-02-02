@@ -12,4 +12,7 @@ public class TDField extends Rectangle {
 
     }
 
+    public void setColor(Color color){
+        super.setFill(color);
+    }
 }

@@ -2,6 +2,8 @@ package Pathfinding;
 
 
 import GUI.*;
+import Objects.Field;
+import com.sun.rowset.internal.Row;
 
 import java.util.ArrayList;
 
@@ -16,11 +18,11 @@ public class Path {
         this.currentPos = start;
         this.aim = aim;
         this.board = board;
+        update();
     }
 
 
     public void print(){
-
         System.out.println("\n");
         for(Waypoint w : fields){
           w.print();
@@ -29,6 +31,14 @@ public class Path {
 
     public boolean empty(){
         return fields.size() == 0;
+    }
+
+    public static void printLists(ArrayList<Waypoint> edgePoints, ArrayList<Waypoint> pointsToBeSurrounded){
+        System.out.println("P to be surr");
+        for(Waypoint w : pointsToBeSurrounded){ w.print();  }
+        System.out.println("Edge points");
+        for(Waypoint w : edgePoints){   w.print();  }
+        System.out.println();
     }
 
     public void update(){
@@ -43,27 +53,17 @@ public class Path {
 
         while(true){
 
-            System.out.println("P to be surr");
-            for(Waypoint w : pointsToBeSurrounded){
-                w.print();
-            }
-            System.out.println("Edge points");
-            for(Waypoint w : edgePoints){
-                w.print();
-            }
-            System.out.println();
+            //printLists(edgePoints, pointsToBeSurrounded);
 
             double smallestFCost = -1;
             for(Waypoint w : edgePoints){
-                if(w.equals(new Position(2, 2)))
-                    System.out.println("jo jo jo" + w.getFCost());
                 if(w.getFCost() < smallestFCost || smallestFCost == -1) {
                     smallestFCost = w.getFCost();
                 }
             }
 
             if(smallestFCost == -1) java.lang.System.exit(1);
-            System.out.println(smallestFCost);
+            //System.out.println(smallestFCost);
             for(int i = 0; i < edgePoints.size(); i++){
                 Waypoint w = edgePoints.get(i);
                 if(w.getFCost() == smallestFCost){
@@ -74,14 +74,15 @@ public class Path {
 
 
             for(Waypoint w : pointsToBeSurrounded){
-                for(int y = ((int)w.getY()) - 1; y <= w.getY() + 1; y++){
-                    for(int x = ((int)w.getX()) - 1; x <= w.getX() + 1; x++){
-                        if(x == w.getX() && y == w.getY())  continue;
-
-                        if(!board.inBounds(x, y))   {
-                            //System.out.println("Mistake for (" + x + " | " + y + ")");
+                for(int y = (w.getY()) - 1; y <= w.getY() + 1; y++){
+                    for(int x = (w.getX()) - 1; x <= w.getX() + 1; x++){
+                        if(x == w.getX() && y == w.getY()
+                                || !board.inBounds(x, y)
+                                || board.getFieldAt(x, y).isTower())
+                        {
                             continue;
                         }
+
                         Position p = new Position(x, y);
 
                         if(aim.equals(p)){
@@ -93,7 +94,7 @@ public class Path {
                             break;
                         }
 
-                        if(board.getFieldAt(x, y) != null && !board.getFieldAt(x, y).isTower()){
+                        if(board.getFieldAt(x, y) != null){
                             boolean inside = false;
                             for(Waypoint wp : edgePoints){  if(p.equals(wp)){   inside = true;  }}
                             for(Waypoint wp : pointsToBeSurrounded){   if(p.equals(wp)){ inside = true;    }}
@@ -103,10 +104,7 @@ public class Path {
                             }
 
 
-                        }else{
-                            //System.out.println("Null");
                         }
-
                     }
                     if(aimFound != null)	break;
                 }
@@ -118,15 +116,16 @@ public class Path {
         }
 
 
-        if(aimFound != null) {
-            //aimFound.print();
-        }else System.exit(2);
+        if(aimFound == null) {
+            System.exit(2);
+        }
 
         ArrayList<Waypoint> way = new ArrayList<>();
         way.add(aimW);
         while(true){
             Waypoint latest = way.get(way.size() - 1);
             if(latest.neighbour(start)){
+                //TODO: Warum komme ich hier nicht hin?
                 way.add(start);
                 fields = new ArrayList<>();
                 for(int i = way.size() - 2; i >= 0; i--){
@@ -158,6 +157,10 @@ public class Path {
                 break;
             }
         }
+    }
+
+    public boolean wayFound(){
+        return fields != null;
     }
 
     public Position getAim() {

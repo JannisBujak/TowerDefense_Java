@@ -1,5 +1,8 @@
 package GUI;
 import Pathfinding.Position;
+import Tower.Cannon;
+import Tower.Base.Tower;
+
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,10 +18,9 @@ public class TowerDefense extends Application {
 
     Pane root;
     ArrayList< ArrayList<Field>> allFields = new ArrayList<>();
-    ArrayList<TDField> allTDFields = new ArrayList<>();
     ArrayList<Attacker> allAttackers = new ArrayList<>();
 
-
+    private int coins;
 
 
     static double SCENE_WIDTH = 1200;
@@ -40,6 +42,12 @@ public class TowerDefense extends Application {
 
 
         initField(this, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
+
+        //getFieldAt(0, 2).setTower(new Cannon());
+        //getFieldAt(1, 2).setTower(new Cannon());
+        //getFieldAt(2, 2).setTower(new Cannon());
+        getFieldAt(3, 2).setTower(new Cannon());
+
 
         Attacker a1 = new Attacker(this, spawn, globalAim);
         allAttackers.add(a1);
@@ -77,18 +85,13 @@ public class TowerDefense extends Application {
                 }
                 TDField TDField  = new TDField(x * xSize, y * ySize, xSize, ySize, color);
 
-                Field field = new Field(x, y);
+                Field field = new Field(x, y, null, TDField, td);
                 row.add(field);
 
-                td.getAllTDFields().add(TDField);
                 root.getChildren().add(TDField);
             }
             td.getAllFields().add(row);
         }
-    }
-
-    private ArrayList<TDField> getAllTDFields() {
-        return allTDFields;
     }
 
     private ArrayList<ArrayList<Field>> getAllFields() {
@@ -124,6 +127,17 @@ public class TowerDefense extends Application {
         }
     }
 
+    public void addTower(int x, int y, TowerDefense td){
+        Field field = td.getAllFields().get(y).get(x);
+        if(!field.isTower())
+            return;
+        Tower t = new Cannon();
+        if(Cannon.getPrice() > this.coins){
+            field.setTower(t);
+        }
+
+    }
+
     public void Update(){
         for (int i = allAttackers.size() - 1; i >= 0; i--){
             Attacker a = allAttackers.get(i);
@@ -136,9 +150,7 @@ public class TowerDefense extends Application {
         }
         for (ArrayList<Field> row : allFields){
             for(Field f : row){
-                //TODO: write
-
-                // f.update();
+                f.update();
             }
         }
 

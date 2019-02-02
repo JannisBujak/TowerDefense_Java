@@ -6,13 +6,17 @@ import Tower.Base.Tower;
 
 public class Field extends Position{
 
+    private  TowerDefense td;
     private Tower tower;
     private TDField tdField;
+    private int towersNearby;
 
-    public Field(int x, int y, Tower tower, TDField tdField, TowerDefense td){
+    public Field(int x, int y, TDField tdField, TowerDefense td){
         super(x, y);
         this.tdField = tdField;
-        this.tower = tower;
+        this.td = td;
+        this.tower = null;
+        towersNearby = 0;
     }
 
     public boolean isTower(){
@@ -23,8 +27,24 @@ public class Field extends Position{
         if(tower != null)   tower.update();
     }
 
+    public void gotNeighbour(){
+        towersNearby++;
+    }
+
+    public boolean isNeighbourOfTower(){
+        return towersNearby != 0;
+    }
+
     public void setTower(Tower tower) {
         this.tower = tower;
+
+        for(int y = getY() - 1; y < getY() + 1; y++){
+            for(int x = getX() - 1; x < getX() + 1; x++){
+                if(td.inBounds(x, y)){
+                    td.getFieldAt(x,y).gotNeighbour();
+                }
+            }
+        }
         tdField.setColor(tower.getColor());
     }
 }

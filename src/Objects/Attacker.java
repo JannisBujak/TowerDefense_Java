@@ -22,7 +22,7 @@ public class Attacker extends Ellipse {
 
         if(path != null)    System.out.println("Way up to date");
         else                System.out.println("path == null");
-        //this.path.print();
+        this.path.print();
         if(path.wayFound()){
             System.out.println("Ye");
         }
@@ -34,7 +34,7 @@ public class Attacker extends Ellipse {
     }
 
     public void update() {
-        path.print();
+        //path.print();
         Position next = path.getFirst();
         double xMove = (next.getX() - pos.getX());
         double yMove = (next.getY() - pos.getY());

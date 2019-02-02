@@ -85,7 +85,7 @@ public class TowerDefense extends Application {
                 }
                 TDField TDField  = new TDField(x * xSize, y * ySize, xSize, ySize, color);
 
-                Field field = new Field(x, y, null, TDField, td);
+                Field field = new Field(x, y, TDField, td);
                 row.add(field);
 
                 root.getChildren().add(TDField);

@@ -20,6 +20,17 @@ public class Position {
         return (cmp.getX() >= x - 1 && cmp.getX() <= x + 1 && cmp.getY() >= y - 1 && cmp.getY() <= y + 1);
     }
 
+    public Position positionBetween(Position p1, Position p2){
+        int xDistance = p1.getX() - p2.getX();
+        int yDistance = p1.getY() - p2.getY();
+        if(xDistance % 2 == 1 || yDistance % 2 == 1){
+            System.out.println("Mistake");
+            return null;
+        }else{
+            return new Position(p1.getX() + xDistance / 2, p1.getY() + yDistance / 2);
+        }
+    }
+
     public void setX(int x) {
         this.x = x;
     }

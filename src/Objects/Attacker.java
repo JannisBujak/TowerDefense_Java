@@ -23,9 +23,6 @@ public class Attacker extends Ellipse {
         if(path != null)    System.out.println("Way up to date");
         else                System.out.println("path == null");
         this.path.print();
-        if(path.wayFound()){
-            System.out.println("Ye");
-        }
     }
 
     public boolean reachedEnd() {

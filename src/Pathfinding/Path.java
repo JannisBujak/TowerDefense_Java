@@ -61,13 +61,15 @@ public class Path {
     }
 
 
-    private Waypoint surroundW(Waypoint w, int x, int y, ArrayList<Waypoint> edgePoints, ArrayList<Waypoint> pointsToBeSurrounded){
-        Position p = new Position(x, y);
-        if(x == w.getX() && y == w.getY()   ||  !board.inBounds(x, y)  ||  board.getFieldAt(x, y).isTower()) {
+    private Waypoint surroundW(Waypoint w, Position p, ArrayList<Waypoint> edgePoints, ArrayList<Waypoint> pointsToBeSurrounded){
+
+        if(p.getX() == w.getX() && p.getY() == w.getY()   ||  !board.inBounds(p.getX(), p.getY())  ||  board.getFieldAt(p).isTower())
+        {
             return null;
         }
 
-        if(aim.equals(p)){
+        if(aim.equals(p))
+        {
             System.out.println("Aim found");
             Waypoint aimW = new Waypoint(p, currentPos, null);
             pointsToBeSurrounded.add(aimW);
@@ -75,7 +77,8 @@ public class Path {
             return aimW;
         }
 
-        if(board.getFieldAt(x, y) != null){
+        if(board.getFieldAt(p) != null)
+        {
             boolean inside = false;
             for(Waypoint wp : edgePoints){  if(p.equals(wp)){   inside = true;  }}
             for(Waypoint wp : pointsToBeSurrounded){   if(p.equals(wp)){ inside = true;    }}
@@ -106,24 +109,35 @@ public class Path {
             minFCost_Edg(edgePoints, pointsToBeSurrounded);
 
             for(Waypoint w : pointsToBeSurrounded){
-                
-                /*
+
+                ArrayList<Position> positions = new ArrayList<>();
+
+                for(int x = w.getX() - 1; x <= w.getX(); x++){
+                    for(int y = w.getY() - 1; y <= w.getY(); y++) {
+                        if((x == w.getX()) ^ (y == w.getY()))
+                            positions.add(new Position(x, y));
+                    }
+                }
+
+
                 for(int y = (w.getY()) - 1; y <= w.getY() + 1; y++){
                     for(int x = (w.getX()) - 1; x <= w.getX() + 1; x++){
-
-                        aimW = this.surroundW(w, x, y, edgePoints, pointsToBeSurrounded);
+                        Position p = new Position(x, y);
+                        aimW = this.surroundW(w, p, edgePoints, pointsToBeSurrounded);
                     }
                     if(aimW != null)	break;
                 }
+
+
+
                 if(aimW != null)	break;
-                */
             }
             if(aimW != null)	break;
+            if(edgePoints.isEmpty() && pointsToBeSurrounded.isEmpty()) {
+                System.exit(33);
+            }
         }
 
-        if(aimW == null) {
-            System.exit(2);
-        }
 
         for(Waypoint w : pointsToBeSurrounded){
             w.print();

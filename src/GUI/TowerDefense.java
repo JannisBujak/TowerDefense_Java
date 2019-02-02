@@ -5,6 +5,7 @@ import Tower.Base.Tower;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -103,6 +104,13 @@ public class TowerDefense extends Application {
             return null;
         else
             return allFields.get(y).get(x);
+    }
+
+    public Field getFieldAt(Position p) {
+        if(p.getY() < 0 || p.getY() >= allFields.size() || p.getX() < 0 || p.getX() >= allFields.get(p.getY()).size())
+            return null;
+        else
+            return allFields.get(p.getY()).get(p.getX());
     }
 
     public Position getSpawn() {

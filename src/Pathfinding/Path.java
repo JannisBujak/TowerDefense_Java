@@ -86,10 +86,12 @@ public class Path {
                         Position p = new Position(x, y);
 
                         if(aim.equals(p)){
-                            //System.out.println("Found");
                             aimFound = p;
+                            System.out.println("Aim found");
+                            p.print();
                             aimW = new Waypoint(aimFound, currentPos, null);
                             pointsToBeSurrounded.add(aimW);
+                            printLists(edgePoints, pointsToBeSurrounded);
                             //w.print();
                             break;
                         }
@@ -126,6 +128,7 @@ public class Path {
             Waypoint latest = way.get(way.size() - 1);
             if(latest.neighbour(start)){
                 //TODO: Warum komme ich hier nicht hin?
+                System.out.println("Hmm");
                 way.add(start);
                 fields = new ArrayList<>();
                 for(int i = way.size() - 2; i >= 0; i--){
@@ -135,10 +138,13 @@ public class Path {
             }
 
             Waypoint nextPos = null;
+            boolean inside = false;
             for(Waypoint potentialNext : pointsToBeSurrounded){
-                boolean inside = false;
                 for(Waypoint w : way){
-                    if(w.equals(potentialNext))     inside = true;
+                    if(w.equals(potentialNext)){
+                        inside = true;
+                        break;
+                    }
                 }
                 if(inside)      continue;
 

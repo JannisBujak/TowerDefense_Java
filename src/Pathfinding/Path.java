@@ -76,6 +76,8 @@ public class Path {
             for(Waypoint w : pointsToBeSurrounded){
                 for(int y = (w.getY()) - 1; y <= w.getY() + 1; y++){
                     for(int x = (w.getX()) - 1; x <= w.getX() + 1; x++){
+
+                        Position p = new Position(x, y);
                         if(x == w.getX() && y == w.getY()
                                 || !board.inBounds(x, y)
                                 || board.getFieldAt(x, y).isTower())
@@ -83,15 +85,13 @@ public class Path {
                             continue;
                         }
 
-                        Position p = new Position(x, y);
 
                         if(aim.equals(p)){
                             aimFound = p;
                             System.out.println("Aim found");
-                            p.print();
                             aimW = new Waypoint(aimFound, currentPos, null);
                             pointsToBeSurrounded.add(aimW);
-                            printLists(edgePoints, pointsToBeSurrounded);
+                            //printLists(edgePoints, pointsToBeSurrounded);
                             //w.print();
                             break;
                         }
@@ -122,12 +122,16 @@ public class Path {
             System.exit(2);
         }
 
+        for(Waypoint w : pointsToBeSurrounded){
+            w.print();
+        }
+        System.out.println();
+
         ArrayList<Waypoint> way = new ArrayList<>();
         way.add(aimW);
         while(true){
             Waypoint latest = way.get(way.size() - 1);
             if(latest.neighbour(start)){
-                //TODO: Warum komme ich hier nicht hin?
                 System.out.println("Hmm");
                 way.add(start);
                 fields = new ArrayList<>();
@@ -138,16 +142,7 @@ public class Path {
             }
 
             Waypoint nextPos = null;
-            boolean inside = false;
             for(Waypoint potentialNext : pointsToBeSurrounded){
-                for(Waypoint w : way){
-                    if(w.equals(potentialNext)){
-                        inside = true;
-                        break;
-                    }
-                }
-                if(inside)      continue;
-
                 if(latest.neighbour(potentialNext)){
                     if(nextPos == null || nextPos.getFCost() >= potentialNext.getFCost()){
                         nextPos = potentialNext;
@@ -155,12 +150,14 @@ public class Path {
                     }
                 }
             }
+
             if(nextPos != null){
                 way.add(nextPos);
                 pointsToBeSurrounded.remove(nextPos);
+                nextPos.print();
 
             }else{
-                break;
+                way.remove(way.size() - 1);
             }
         }
     }

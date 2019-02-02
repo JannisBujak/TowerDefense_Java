@@ -43,9 +43,9 @@ public class TowerDefense extends Application {
 
         initField(this, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
 
-        //getFieldAt(0, 2).setTower(new Cannon());
-        //getFieldAt(1, 2).setTower(new Cannon());
-        //getFieldAt(2, 2).setTower(new Cannon());
+        getFieldAt(0, 2).setTower(new Cannon());
+        getFieldAt(1, 2).setTower(new Cannon());
+        getFieldAt(2, 2).setTower(new Cannon());
         getFieldAt(3, 2).setTower(new Cannon());
 
 

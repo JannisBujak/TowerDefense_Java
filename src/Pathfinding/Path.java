@@ -43,24 +43,27 @@ public class Path {
 
         while(true){
 
-            //System.out.println("P to be surr");
+            System.out.println("P to be surr");
             for(Waypoint w : pointsToBeSurrounded){
-                //w.print();
+                w.print();
             }
-            //System.out.println("Edge points");
+            System.out.println("Edge points");
             for(Waypoint w : edgePoints){
-                //w.print();
+                w.print();
             }
+            System.out.println();
 
             double smallestFCost = -1;
             for(Waypoint w : edgePoints){
+                if(w.equals(new Position(2, 2)))
+                    System.out.println("jo jo jo" + w.getFCost());
                 if(w.getFCost() < smallestFCost || smallestFCost == -1) {
                     smallestFCost = w.getFCost();
                 }
             }
 
             if(smallestFCost == -1) java.lang.System.exit(1);
-
+            System.out.println(smallestFCost);
             for(int i = 0; i < edgePoints.size(); i++){
                 Waypoint w = edgePoints.get(i);
                 if(w.getFCost() == smallestFCost){

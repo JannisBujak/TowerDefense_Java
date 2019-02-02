@@ -11,7 +11,7 @@ public class Waypoint extends Position{
         if(currentPos == null){
             gCost = 0;
         }else{
-            gCost = Math.sqrt(Math.abs(currentPos.getX() - pos.getX() + currentPos.getY() - pos.getY()));
+            gCost = Math.sqrt(Math.pow(currentPos.getX() - pos.getX(), 2) + Math.pow(currentPos.getY() - pos.getY(), 2));
         }
         if(aim == null){
             hCost = 0;

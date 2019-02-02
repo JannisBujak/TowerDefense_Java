@@ -9,11 +9,12 @@ public class Attacker extends Ellipse {
     private Position pos;
     private Path path;
     private boolean reachedEnd;
+    private static double speed = 0.1;
 
     public Attacker(TowerDefense td, Position start, Position destination){
         super(TowerDefense.X_UNIT / 2, TowerDefense.Y_UNIT / 2);
-        setTranslateX(getTranslateX() + TowerDefense.X_UNIT / 2);
-        setTranslateY(getTranslateY() + TowerDefense.Y_UNIT / 2);
+        setCenterX((start.getX() + 0.5) * TowerDefense.X_UNIT);
+        setCenterY((start.getY() + 0.5) * TowerDefense.Y_UNIT);
 
         pos = start;
 
@@ -35,27 +36,32 @@ public class Attacker extends Ellipse {
     }
 
     public void update() {
+        if(reachedEnd)  return;
         Position next = path.getFirst();
-        next.print();
         double xMove = (next.getX() - pos.getX());
         double yMove = (next.getY() - pos.getY());
         Vector v = new Vector(xMove, yMove);
 
-        if (pos.getX() + xMove >= next.getX() && pos.getY() + yMove >= next.getY()) {
+        if (Math.abs(v.getX() * TowerDefense.X_UNIT * speed) >= Math.abs(((next.getX() + 0.5) * TowerDefense.X_UNIT) - getCenterX())
+        && Math.abs(v.getY() * TowerDefense.Y_UNIT * speed) >= Math.abs(((next.getY() + 0.5) * TowerDefense.Y_UNIT) - getCenterY()) )
+        {
             pos.setX(next.getX());
             pos.setY(next.getY());
             path.deleteFirst();
             if(path.empty()){
                 this.reachedEnd = true;
             }
+            updateTranslateVar();
         } else {
-            pos.moveInDirection(v);
+            setCenterX(getCenterX() + v.getX() * TowerDefense.X_UNIT * speed);
+            setCenterY(getCenterY() + v.getY() * TowerDefense.Y_UNIT * speed);
         }
-        updateTranslateVar();
+        //pos.print();
     }
 
     public void updateTranslateVar(){
-        this.setTranslateX((pos.getX() + 1) + TowerDefense.X_UNIT / 2);
-        this.setTranslateX((pos.getY() + 1) + TowerDefense.Y_UNIT / 2);
+        this.setCenterX((pos.getX() + 0.5) * TowerDefense.X_UNIT);
+        this.setCenterY((pos.getY() + 0.5) * TowerDefense.Y_UNIT);
+        //System.out.println(getCenterX() + " " + getCenterY());
     }
 }

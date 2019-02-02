@@ -29,8 +29,8 @@ public class TowerDefense extends Application {
     public static  double X_UNIT = SCENE_WIDTH / NUMBER_OF_X_FIELDS;
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
-    Position spawn = new Position(0, 0);
-    Position globalAim = new Position(20, 15);
+    Position spawn = new Position(-1, -1);
+    Position globalAim = new Position(24, 16);
 
     @Override
     public void start(Stage window) throws Exception {
@@ -65,9 +65,9 @@ public class TowerDefense extends Application {
         double xSize = SCENE_WIDTH / numberOfXFields;
         double ySize = SCENE_HEIGHT / numberOfYFields;
 
-        for(int y = 0; y < numberOfYFields; y++) {
+        for(int y = 0; y < numberOfYFields + 1; y++) {
             ArrayList<Field> row = new ArrayList<>();
-            for (int x = 0; x < numberOfXFields; x++) {
+            for (int x = 0; x < numberOfXFields + 1; x++) {
 
                 Color color;
                 if((x + y) % 2 == 0){
@@ -125,9 +125,13 @@ public class TowerDefense extends Application {
     }
 
     public void Update(){
-        for (Attacker a : allAttackers){
+        for (int i = allAttackers.size() - 1; i >= 0; i--){
+            Attacker a = allAttackers.get(i);
             if(!a.reachedEnd()){
                 a.update();
+            }else{
+                allAttackers.remove(a);
+                root.getChildren().remove(a);
             }
         }
         for (ArrayList<Field> row : allFields){

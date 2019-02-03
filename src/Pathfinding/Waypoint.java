@@ -22,6 +22,11 @@ public class Waypoint extends Position{
     }
 
     public double getFCost() {
+
         return fCost;
+    }
+
+    public double gethCost() {
+        return hCost;
     }
 }

@@ -1,5 +1,6 @@
 package Pathfinding;
 
+import GUI.TowerDefense;
 import Objects.Vector;
 
 public class Position {
@@ -20,14 +21,22 @@ public class Position {
         return (cmp.getX() >= x - 1 && cmp.getX() <= x + 1 && cmp.getY() >= y - 1 && cmp.getY() <= y + 1);
     }
 
-    public Position positionBetween(Position p1, Position p2){
-        int xDistance = p1.getX() - p2.getX();
-        int yDistance = p1.getY() - p2.getY();
-        if(xDistance % 2 == 1 || yDistance % 2 == 1){
-            System.out.println("Mistake");
-            return null;
+    public static boolean cuttingTower(Position p1, Position p2, TowerDefense td){
+        if(p1.getX() == p2.getX() || p1.getY() == p2.getY())     return false;
+        Position[] p = new Position[2];
+        p[0] = new Position(p1.getX(), p2.getY());
+        p[1] = new Position(p2.getX(), p1.getY());
+        return  !( (td.getFieldAt(p[0]) == null || !td.getFieldAt(p[0]).isTower()) && (td.getFieldAt(p[1]) == null || !td.getFieldAt(p[1]).isTower()) );
+    }
+
+    public  static Position getCorner(Position p1, Position p2, Position center){
+        if(Math.abs(center.getX() - p1.getX()) == 1 && center.getY() == p1.getY() && Math.abs(center.getY() - p2.getY()) == 1 && center.getX() == p2.getX()){
+            return new Position(p1.getX(), p2.getY());
+        }else if(Math.abs(center.getY() - p1.getY()) == 1 && center.getX() == p1.getX() && Math.abs(center.getX() - p2.getX()) == 1 && center.getY() == p2.getY()){
+            return new Position(p2.getX(), p1.getY());
         }else{
-            return new Position(p1.getX() + xDistance / 2, p1.getY() + yDistance / 2);
+            //System.out.println("Mistake");
+            return null;
         }
     }
 

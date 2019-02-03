@@ -33,7 +33,7 @@ public class TowerDefense extends Application {
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
     Position spawn = new Position(-1, -1);
-    Position globalAim = new Position(24, 16);
+    Position globalAim = new Position(1, 16);
 
     @Override
     public void start(Stage window) throws Exception {

@@ -2,6 +2,7 @@ package Pathfinding;
 
 
 import GUI.*;
+import Objects.Field;
 
 import java.util.ArrayList;
 
@@ -105,30 +106,35 @@ public class Path {
 
         while(true){
 
-            printLists(edgePoints, pointsToBeSurrounded);
+            /**printLists(edgePoints, pointsToBeSurrounded);
+            */
+
             minFCost_Edg(edgePoints, pointsToBeSurrounded);
 
             for(Waypoint w : pointsToBeSurrounded){
 
                 ArrayList<Position> positions = new ArrayList<>();
 
-                for(int x = w.getX() - 1; x <= w.getX(); x++){
-                    for(int y = w.getY() - 1; y <= w.getY(); y++) {
+                for(int x = w.getX() - 1; x <= w.getX() + 1; x++){
+                    for(int y = w.getY() - 1; y <= w.getY() + 1; y++) {
                         if((x == w.getX()) ^ (y == w.getY()))
                             positions.add(new Position(x, y));
                     }
                 }
-
-
-                for(int y = (w.getY()) - 1; y <= w.getY() + 1; y++){
-                    for(int x = (w.getX()) - 1; x <= w.getX() + 1; x++){
-                        Position p = new Position(x, y);
-                        aimW = this.surroundW(w, p, edgePoints, pointsToBeSurrounded);
+                for (int i = 0; i < 4; i++){
+                    Field p1 = board.getFieldAt(positions.get(i));
+                    Field p2 = board.getFieldAt(positions.get((i  + 1) % 4));
+                    if((p1 == null || !p1.isTower()) && (p2 == null || !p2.isTower())){
+                        Position corner = Position.getCorner(positions.get(i), positions.get((i + 1) % 4), w);
+                        if(corner != null) positions.add(corner);
                     }
-                    if(aimW != null)	break;
                 }
 
-
+                for (Position p : positions){
+                    //p.print();
+                    aimW = this.surroundW(w, p, edgePoints, pointsToBeSurrounded);
+                    if (aimW != null)   break;
+                }
 
                 if(aimW != null)	break;
             }
@@ -146,8 +152,9 @@ public class Path {
 
         ArrayList<Waypoint> way = new ArrayList<>();
         way.add(aimW);
-        while(true){
+        while(true) {
             Waypoint latest = way.get(way.size() - 1);
+            System.out.println(" H");latest.print();
             if(latest.neighbour(start)){
                 way.add(start);
                 fields = new ArrayList<>();
@@ -159,8 +166,8 @@ public class Path {
 
             Waypoint nextPos = null;
             for(Waypoint potentialNext : pointsToBeSurrounded){
-                if(latest.neighbour(potentialNext)){
-                    if(nextPos == null || nextPos.getFCost() >= potentialNext.getFCost()){
+                if(latest.neighbour(potentialNext) && !Position.cuttingTower(latest, potentialNext, board)){
+                    if(nextPos == null || nextPos.getFCost() > potentialNext.getFCost() || (nextPos.getFCost() == potentialNext.getFCost() && nextPos.gethCost() > potentialNext.gethCost())){
                         nextPos = potentialNext;
 
                     }

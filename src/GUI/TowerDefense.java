@@ -33,7 +33,7 @@ public class TowerDefense extends Application {
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
     Position spawn = new Position(-1, -1);
-    Position globalAim = new Position(1, 16);
+    Position globalAim = new Position(3, 16);
 
     @Override
     public void start(Stage window) throws Exception {
@@ -51,6 +51,10 @@ public class TowerDefense extends Application {
 
 
         Attacker a1 = new Attacker(this, spawn, globalAim);
+
+        if(a1.pathEmpty())
+            return;
+
         allAttackers.add(a1);
         root.getChildren().add(a1);
 

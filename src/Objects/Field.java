@@ -2,6 +2,7 @@ package Objects;
 import GUI.TowerDefense;
 import Pathfinding.Position;
 import Tower.Base.Tower;
+import javafx.scene.paint.Color;
 
 
 public class Field extends Position{
@@ -46,5 +47,9 @@ public class Field extends Position{
             }
         }
         tdField.setColor(tower.getColor());
+    }
+
+    public void setColor(Color c){
+        tdField.setColor(c);
     }
 }

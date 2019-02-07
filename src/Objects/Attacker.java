@@ -20,9 +20,12 @@ public class Attacker extends Ellipse {
 
         path = new Path(start, destination, td);
 
-        if(path != null)    System.out.println("Way up to date");
-        else                System.out.println("path == null");
-        this.path.print();
+        if(path != null){
+            System.out.println("Way up to date");
+            this.path.print();
+        }else{
+            System.out.println("path == null");
+        }
     }
 
     public boolean reachedEnd() {
@@ -58,5 +61,9 @@ public class Attacker extends Ellipse {
         this.setCenterX((pos.getX() + 0.5) * TowerDefense.X_UNIT);
         this.setCenterY((pos.getY() + 0.5) * TowerDefense.Y_UNIT);
         //System.out.println(getCenterX() + " " + getCenterY());
+    }
+
+    public boolean pathEmpty(){
+        return this.path == null;
     }
 }

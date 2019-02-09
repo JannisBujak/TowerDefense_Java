@@ -129,6 +129,13 @@ public class TowerDefense extends Application {
         return ((y >= 0 && y < allFields.size()) && (x >= 0 && x < allFields.get(y).size()));
     }
 
+    public boolean isTower(int x, int y){
+        if(y < 0 || y >= allFields.size() || x < 0 || x >= allFields.get(y).size())
+            return true;
+        else
+            return allFields.get(y).get(x).isTower();
+    }
+
     public void printBoard(){
         for(ArrayList<Field> list : allFields){
             for(Field f : list){

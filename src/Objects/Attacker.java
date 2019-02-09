@@ -20,12 +20,14 @@ public class Attacker extends Ellipse {
 
         path = new Path(start, destination, td);
 
+        /*
         if(path != null){
             System.out.println("Way up to date");
             this.path.print();
         }else{
             System.out.println("path == null");
         }
+        */
     }
 
     public boolean reachedEnd() {

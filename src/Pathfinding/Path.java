@@ -3,7 +3,6 @@ package Pathfinding;
 
 import GUI.*;
 import Objects.Field;
-import Tower.Base.Tower;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
 
@@ -35,11 +34,38 @@ public class Path {
         return fields.size() == 0;
     }
 
+    private static boolean inList(Waypoint potNext, ArrayList<Waypoint> revWay) {
+        for(Waypoint w : revWay){
+            if(w == null)
+                continue;
+            if (potNext.equals(w))
+                return true;
+        }
+        return false;
+    }
+
+    private static Waypoint getWPbyPos(Position pos, ArrayList<Waypoint> list){
+        for(Waypoint w : list){
+            if(pos.equals(w))   return  w;
+        }
+        return null;
+    }
+
+    public static void turnListArround(ArrayList<Waypoint> list){
+        for(int i = 0; i < list.size() / 2; i++){
+            Waypoint l = list.get(i);
+            Waypoint r = list.get(list.size() - (i + 1));
+            list.set(i, r);
+            list.set(list.size() - (i + 1), l);
+        }
+    }
 
     public static void printLists(ArrayList<Waypoint> list){
         for(Waypoint w : list){
             if(w == null)   continue;
             w.print();
+            System.out.println("FCost: " + w.getFCost());
+
             System.out.print("Source: ");
             if(w.getSource() != null)
                 w.getSource().print();
@@ -49,6 +75,14 @@ public class Path {
         System.out.println();
     }
 
+    private static void wavyUpdating(Waypoint source, ArrayList<Waypoint> pointsToBeSurrounded, TowerDefense td){
+        for(int y = source.getY() - 1; y >= source.getY() + 1; y++){
+            for(int x = source.getX() - 1; x >= source.getX() + 1; x++){
+                if(source.equals(new Position(x, y))|| !td.inBounds(x, y))   continue;
+                Waypoint w = Path.getWPbyPos(new Position(x, y), pointsToBeSurrounded);
+            }
+        }
+    }
 
     private static void minFCost_Edg(ArrayList<Waypoint> edgePoints, ArrayList<Waypoint> pointsToBeSurrounded, Position aim, TowerDefense td) {
         double smallestFCost = -1;
@@ -67,7 +101,6 @@ public class Path {
                 for(int y = w.getY() - 1; y <= w.getY() + 1; y++){
                     for(int x = w.getX() - 1; x <= w.getX() + 1; x++){
                         if(td.inBounds(x, y) && !new Position(x, y).equals(w)){
-                            //TODO: check, if shortest way
                             Waypoint knownPoint = null;
                             for(Waypoint p : pointsToBeSurrounded){
                                 if(p.equals(new Position(x, y))){
@@ -88,7 +121,6 @@ public class Path {
         }
     }
 
-
     private static Waypoint addToEdgePoints(Waypoint w, Position p, ArrayList<Waypoint> edgePoints, ArrayList<Waypoint> pointsToBeSurrounded, Position currentPos, Position aim, TowerDefense td){
 
         if(p.getX() == w.getX() && p.getY() == w.getY()   ||  !td.inBounds(p.getX(), p.getY())  ||  td.getFieldAt(p).isTower())
@@ -98,7 +130,7 @@ public class Path {
         if(aim.equals(p))
         {
             System.out.println("Aim found");
-            Waypoint aimW = new Waypoint(p, currentPos, null, w.getDistanceTraveled() + Position.getDistance(p, w), w);
+            Waypoint aimW = new Waypoint(p, null, w.getDistanceTraveled() + Position.getDistance(p, w), w);
             pointsToBeSurrounded.add(aimW);
             td.getFieldAt(aimW).setColor(Color.GREEN);
             //printLists(edgePoints, pointsToBeSurrounded);
@@ -112,13 +144,14 @@ public class Path {
             for(Waypoint wp : pointsToBeSurrounded){   if(p.equals(wp)){ inside = true;    }}
 
             if(!inside) {
-                Waypoint nextWP = new Waypoint(p, currentPos, aim, w.getDistanceTraveled() + Position.getDistance(p, w), w);
+                Waypoint nextWP = new Waypoint(p, aim, w.getDistanceTraveled() + Position.getDistance(p, w), w);
                 edgePoints.add(nextWP);
                 return null;
             }
         }
         return null;
     }
+
 
     private static ArrayList<Position> getOptimalPoints(Waypoint w, TowerDefense td){
         ArrayList<Position> positions = new ArrayList<>();
@@ -139,27 +172,42 @@ public class Path {
         return positions;
     }
 
-    public static void turnListArround(ArrayList<Waypoint> list){
-        for(int i = 0; i < list.size() / 2; i++){
-            Waypoint l = list.get(i);
-            Waypoint r = list.get(list.size() - (i + 1));
-            list.set(i, r);
-            list.set(list.size() - (i + 1), l);
-        }
-    }
 
-    private static ArrayList<Waypoint> constructWay(ArrayList<Waypoint> pointsToBeSurrounded){
+    private static ArrayList<Waypoint> constructWay(Position currentPos, ArrayList<Waypoint> pointsToBeSurrounded, TowerDefense td){
         ArrayList<Waypoint> revWay = new ArrayList<>();
-        for(Waypoint current = pointsToBeSurrounded.get(pointsToBeSurrounded.size() - 1); current.getSource() != null; current = current.getSource()){
-            revWay.add(current);
+
+        Waypoint next;
+        for(Waypoint w = pointsToBeSurrounded.get(pointsToBeSurrounded.size() - 1); w != null && !w.equals(pointsToBeSurrounded.get(0)); w = next){
+            revWay.add(w);
+
+            next = null;
+            for(int y = w.getY() - 1; y <= w.getY() + 1; y++){
+                for(int x = w.getX() - 1; x <= w.getX() + 1; x++){
+                    if(!td.inBounds(x, y) || new Position(x, y).equals(w))  continue;
+                    Waypoint potNext = null;
+                    for(Waypoint n : pointsToBeSurrounded){
+                        if(n.equals(td.getFieldAt(x, y))){
+                            potNext = n;
+                            break;
+                        }
+                    }
+
+                    if(potNext != null && !Path.inList(potNext, revWay) && (next == null || potNext.getFCost() < next.getFCost() || potNext.getFCost() == next.getFCost() && potNext.gethCost() < next.gethCost())){
+                        next = potNext;
+                    }
+
+                }
+            }
         }
         Path.turnListArround(revWay);
         return revWay;
     }
 
-    public static ArrayList<Waypoint> finish(ArrayList<Waypoint> edgePoints, ArrayList<Waypoint> pointsToBeSurrounded, TowerDefense td){
-        ArrayList<Waypoint> way = Path.constructWay(pointsToBeSurrounded);
+    public static ArrayList<Waypoint> finish(Position currentPos, ArrayList<Waypoint> edgePoints, ArrayList<Waypoint> pointsToBeSurrounded, TowerDefense td){
+        ArrayList<Waypoint> way = Path.constructWay(currentPos, pointsToBeSurrounded, td);
+
         setColors(edgePoints, pointsToBeSurrounded, way, td);
+        printLists(pointsToBeSurrounded);
         return way;
     }
 
@@ -167,7 +215,7 @@ public class Path {
         ArrayList<Waypoint> edgePoints = new ArrayList<>();
         ArrayList<Waypoint> pointsToBeSurrounded = new ArrayList<>();
 
-        Waypoint start = new Waypoint(currentPos, null, aim, 0, null);
+        Waypoint start = new Waypoint(currentPos, aim, 0, null);
         edgePoints.add(start);
 
         Waypoint aimW;
@@ -175,10 +223,12 @@ public class Path {
 
         while(true){
 
+            /*
             System.out.println("edg");
             printLists(edgePoints);
             System.out.println("ptbS");
             printLists(pointsToBeSurrounded);
+            */
 
             minFCost_Edg(edgePoints, pointsToBeSurrounded, aim, td);
 
@@ -189,7 +239,7 @@ public class Path {
 
                for (Position p : positions) {
                    aimW = Path.addToEdgePoints(w, p, edgePoints, pointsToBeSurrounded, currentPos, aim, td);
-                   if (aimW != null) return finish(edgePoints, pointsToBeSurrounded, td);
+                   if (aimW != null) return finish(currentPos, edgePoints, pointsToBeSurrounded, td);
                }
             }
             if(edgePoints.isEmpty() && pointsToBeSurrounded.isEmpty()) {

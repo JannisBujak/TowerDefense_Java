@@ -39,7 +39,7 @@ public class Waypoint extends Position{
         return source;
     }
 
-    public void changeSource(Waypoint source, ArrayList<Waypoint> openList, TowerDefense td) {
+    public void changeSource(Waypoint source, ArrayList<Waypoint> openList, ArrayList<Waypoint> closedList, TowerDefense td) {
         //Break
         if(this.source.equals(source) || distanceTraveled < source.getDistanceTraveled() + getDistance(this, source))   return;
 
@@ -48,17 +48,20 @@ public class Waypoint extends Position{
         fCost = distanceTraveled + hCost;
         this.source = source;
         //Call recursive for surroundings
-        changeSourceOfSurroundings(openList, td);
+        changeSourceOfSurroundings(openList, closedList, td);
     }
 
-    public void changeSourceOfSurroundings(ArrayList<Waypoint> openList, TowerDefense td){
-        for(int y = getY() - 1; y <= getY() + 1; y++) {
-            for (int x = getX() - 1; x <= getX() + 1; x++) {
-                if(!td.inBounds(x, y) || source.equals(x, y) || this.equals(x, y))  continue;
-                Waypoint w = Path.getWPbyPos(new Position(x, y), openList);
-                if(w == null) continue;
-                else{
-                    w.changeSource(this, openList, td);
+    public void changeSourceOfSurroundings(ArrayList<Waypoint> openList, ArrayList<Waypoint> closedList, TowerDefense td){
+        ArrayList<Position> list = Path.optimizedSurroundingsChosed(this, td);
+        for(Position p : list){
+            if(!td.inBounds(p.getX(), p.getY()) || source.equals(p) || this.equals(p))  continue;
+            Waypoint w = Path.getWPbyPos(new Position(p), openList);
+            if(w != null) {
+                w.changeSource(this, openList, closedList, td);
+            }else{
+                w = Path.getWPbyPos(new Position(p), closedList);
+                if(w != null){
+                    w.changeSource(this, openList, closedList, td);
                 }
             }
         }

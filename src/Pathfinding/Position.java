@@ -31,13 +31,13 @@ public class Position {
     }
 
     public  static Position getCorner(Position p1, Position p2, Position center){
-        if(Math.abs(center.getX() - p1.getX()) == 1 && center.getY() == p1.getY() && Math.abs(center.getY() - p2.getY()) == 1 && center.getX() == p2.getX()){
+        if(p1 == null || p2 == null || center == null)  return null;
+        if(!center.neighbour(p1) || !center.neighbour(p2) || !p1.neighbour(p2 ) || p1.getX() == p2.getX() || p1.getY() == p2.getY()){
+            return  null;
+        }else if(center.getX() != p1.getX()){
             return new Position(p1.getX(), p2.getY());
-        }else if(Math.abs(center.getY() - p1.getY()) == 1 && center.getX() == p1.getX() && Math.abs(center.getX() - p2.getX()) == 1 && center.getY() == p2.getY()){
-            return new Position(p2.getX(), p1.getY());
         }else{
-            //System.out.println("Mistake");
-            return null;
+            return new Position(p2.getX(), p1.getY());
         }
     }
 

@@ -9,12 +9,16 @@ public class Attacker extends Ellipse {
     private Position pos;
     private Path path;
     private boolean reachedEnd;
-    private static double speed = 0.1;
+    private double speed;
+    private double healthPoints;
 
-    public Attacker(TowerDefense td, Position start, Position destination){
+    public Attacker(TowerDefense td, Position start, Position destination, double speed, double healthPoints){
         super(TowerDefense.X_UNIT / 2, TowerDefense.Y_UNIT / 2);
         setCenterX((start.getX() + 0.5) * TowerDefense.X_UNIT);
         setCenterY((start.getY() + 0.5) * TowerDefense.Y_UNIT);
+
+        this.speed = speed;
+        this.healthPoints = healthPoints;
 
         pos = start;
 

@@ -1,8 +1,9 @@
 package GUI;
 import Pathfinding.Position;
-import Tower.Cannon;
 import Tower.Base.Tower;
+import Tower.Cannon;
 
+import Tower.Tesla;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -41,16 +42,28 @@ public class TowerDefense extends Application {
         root = new Pane();
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
 
+        this.coins = 100;
+
 
         initField(this, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
 
-        getFieldAt(0, 2).setTower(new Cannon());
-        getFieldAt(1, 2).setTower(new Cannon());
-        getFieldAt(2, 2).setTower(new Cannon());
-        getFieldAt(3, 2).setTower(new Cannon());
+        //getFieldAt(0, 2).setTower(new Cannon());
+        Position[] positions = {    new Position(0,2), new Position(1,2), new Position(2,2), new Position(3,2), new Position(4,2), new Position(5,2), new Position(6,2),  };
 
+        for(int i = 0; i < positions.length; i++){
+            Position p = positions[i];
+            if(i % 2 == 1){
+                if(addTower(p.getX(), p.getY(), new Cannon(this))){
+                    System.out.println(coins);
+                }else  System.out.println("Error");
+            }else{
+                if(addTower(p.getX(), p.getY(), new Tesla(this))){
+                    System.out.println(coins);
+                }else  System.out.println("Error");
+            }
+        }
 
-        Attacker a1 = new Attacker(this, spawn, globalAim);
+        Attacker a1 = new Attacker(this, spawn, globalAim, 0.1, 10);
 
         if(a1.pathEmpty())
             return;
@@ -146,15 +159,16 @@ public class TowerDefense extends Application {
         }
     }
 
-    public void addTower(int x, int y, TowerDefense td){
-        Field field = td.getAllFields().get(y).get(x);
-        if(!field.isTower())
-            return;
-        Tower t = new Cannon();
-        if(Cannon.getPrice() > this.coins){
+    private boolean addTower(int x, int y, Tower t){
+        Field field = allFields.get(y).get(x);
+        if(field.isTower()) return false;
+        if(t.getPrice() < this.coins){
+            this.coins -= t.getPrice();
             field.setTower(t);
+            return true;
+        }else{
+            return false;
         }
-
     }
 
     public void Update(){

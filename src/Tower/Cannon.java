@@ -1,18 +1,24 @@
 package Tower;
 
+import GUI.TowerDefense;
 import Tower.Base.Tower;
 import javafx.scene.paint.Color;
 
 public class Cannon extends Tower {
 
-    public static int price;
+    public static int price = 15;
     public static Color color = Color.RED;
 
-    public Cannon(){
-        super(10, 2, 0.5, price, color);
+    public Cannon(TowerDefense td){
+        super(10, 2, 0.5, price, color, td);
     }
 
-    public static int getPrice() {
+    @Override
+    public int getPrice(){
+        return Cannon.getPriceOfCannon();
+    }
+
+    public static int getPriceOfCannon() {
         return price;
     }
 }

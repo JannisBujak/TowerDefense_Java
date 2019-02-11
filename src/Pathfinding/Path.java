@@ -163,7 +163,8 @@ public class Path {
 
         Path.constructWay(way, openList, closedList, td);
 
-        Path.setColors(openList, closedList, way, td);
+        //TODO Colorize
+        //Path.setColors(openList, closedList, way, td);
 
         return way;
     }

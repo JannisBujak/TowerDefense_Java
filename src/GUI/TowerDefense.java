@@ -34,7 +34,7 @@ public class TowerDefense extends Application {
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
     Position spawn = new Position(-1, -1);
-    Position globalAim = new Position(3, 16);
+    Position globalAim = new Position(16, 16);
 
     @Override
     public void start(Stage window) throws Exception {
@@ -48,22 +48,26 @@ public class TowerDefense extends Application {
         initField(this, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
 
         //getFieldAt(0, 2).setTower(new Cannon());
-        Position[] positions = {    new Position(0,2), new Position(1,2), new Position(2,2), new Position(3,2), new Position(4,2), new Position(5,2), new Position(6,2),  };
+        Position[] positions = {    new Position(5,5)  };
 
         for(int i = 0; i < positions.length; i++){
             Position p = positions[i];
             if(i % 2 == 1){
                 if(addTower(p.getX(), p.getY(), new Cannon(this))){
                     System.out.println(coins);
-                }else  System.out.println("Error");
+                }else{
+                    System.out.println("Error");
+                }
             }else{
                 if(addTower(p.getX(), p.getY(), new Tesla(this))){
                     System.out.println(coins);
-                }else  System.out.println("Error");
+                }else{
+                    System.out.println("Error");
+                }
             }
         }
 
-        Attacker a1 = new Attacker(this, spawn, globalAim, 0.1, 10);
+        Attacker a1 = new Attacker(this, spawn, globalAim, 0.01, 10);
 
         if(a1.pathEmpty())
             return;
@@ -149,16 +153,6 @@ public class TowerDefense extends Application {
             return allFields.get(y).get(x).isTower();
     }
 
-    public void printBoard(){
-        for(ArrayList<Field> list : allFields){
-            for(Field f : list){
-                System.out.print("1 ");
-            }
-
-            System.out.println();
-        }
-    }
-
     private boolean addTower(int x, int y, Tower t){
         Field field = allFields.get(y).get(x);
         if(field.isTower()) return false;
@@ -169,6 +163,10 @@ public class TowerDefense extends Application {
         }else{
             return false;
         }
+    }
+
+    public ArrayList<Attacker> getAllAttackers(){
+        return allAttackers;
     }
 
     public void Update(){
@@ -182,8 +180,8 @@ public class TowerDefense extends Application {
             }
         }
         for (ArrayList<Field> row : allFields){
-            for(Field f : row){
-                f.update();
+            for(Field field : row){
+                field.update();
             }
         }
 

@@ -1,7 +1,9 @@
 package Objects;
 
 import Pathfinding.*;
+import Tower.Base.*;
 import GUI.TowerDefense;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
 public class Attacker extends Ellipse {
@@ -11,27 +13,21 @@ public class Attacker extends Ellipse {
     private boolean reachedEnd;
     private double speed;
     private double healthPoints;
+    private TowerDefense td;
 
     public Attacker(TowerDefense td, Position start, Position destination, double speed, double healthPoints){
         super(TowerDefense.X_UNIT / 2, TowerDefense.Y_UNIT / 2);
+        setFill(Color.GREEN);
         setCenterX((start.getX() + 0.5) * TowerDefense.X_UNIT);
         setCenterY((start.getY() + 0.5) * TowerDefense.Y_UNIT);
 
         this.speed = speed;
         this.healthPoints = healthPoints;
-
+        this.td = td;
         pos = start;
 
         path = new Path(start, destination, td);
 
-        /*
-        if(path != null){
-            System.out.println("Way up to date");
-            this.path.print();
-        }else{
-            System.out.println("path == null");
-        }
-        */
     }
 
     public boolean reachedEnd() {
@@ -67,6 +63,16 @@ public class Attacker extends Ellipse {
         this.setCenterX((pos.getX() + 0.5) * TowerDefense.X_UNIT);
         this.setCenterY((pos.getY() + 0.5) * TowerDefense.Y_UNIT);
         //System.out.println(getCenterX() + " " + getCenterY());
+    }
+
+    public void setColor(Color color){
+        super.setFill(color);
+    }
+
+    public double getDistance(Field field){
+        double xDist = (getCenterX() - 0.5)/TowerDefense.X_UNIT - field.getX();
+        double yDist = (getCenterY() - 0.5)/TowerDefense.Y_UNIT - field.getY();
+        return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
     }
 
     public boolean pathEmpty(){

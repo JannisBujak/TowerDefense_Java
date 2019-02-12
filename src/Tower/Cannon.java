@@ -1,6 +1,7 @@
 package Tower;
 
 import GUI.TowerDefense;
+import Objects.Field;
 import Tower.Base.Tower;
 import javafx.scene.paint.Color;
 
@@ -20,5 +21,9 @@ public class Cannon extends Tower {
 
     public static int getPriceOfCannon() {
         return price;
+    }
+
+    public void update(Field field){
+
     }
 }

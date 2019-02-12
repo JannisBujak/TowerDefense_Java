@@ -23,7 +23,7 @@ public abstract class Tower {
         this.td = td;
     }
 
-    public  abstract void update(Field field);
+    public  abstract void update(Field field, TowerDefense towerDefense);
 
     public Color getColor(){
         return color;

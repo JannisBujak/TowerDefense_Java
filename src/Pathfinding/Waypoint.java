@@ -2,6 +2,7 @@ package Pathfinding;
 
 
 import GUI.TowerDefense;
+import GeneralOperations.ListOperations;
 
 import java.util.ArrayList;
 
@@ -55,11 +56,11 @@ public class Waypoint extends Position{
         ArrayList<Position> list = Path.optimizedSurroundingsChosed(this, td);
         for(Position p : list){
             if(!td.inBounds(p.getX(), p.getY()) || source.equals(p) || this.equals(p))  continue;
-            Waypoint w = Path.getWPbyPos(new Position(p), openList);
+            Waypoint w = ListOperations.getWPbyPos(new Position(p), openList);
             if(w != null) {
                 w.changeSource(this, openList, closedList, td);
             }else{
-                w = Path.getWPbyPos(new Position(p), closedList);
+                w = ListOperations.getWPbyPos(new Position(p), closedList);
                 if(w != null){
                     w.changeSource(this, openList, closedList, td);
                 }

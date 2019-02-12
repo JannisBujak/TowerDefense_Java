@@ -1,4 +1,4 @@
-package Tower;
+package Tower.Cannon;
 
 import GUI.TowerDefense;
 import Objects.Field;
@@ -23,7 +23,7 @@ public class Cannon extends Tower {
         return price;
     }
 
-    public void update(Field field){
+    public void update(Field field, TowerDefense towerDefense){
 
     }
 }

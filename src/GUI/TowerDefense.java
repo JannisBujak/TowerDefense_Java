@@ -1,14 +1,15 @@
 package GUI;
 import Pathfinding.Position;
+import Tower.Base.Shot;
 import Tower.Base.Tower;
-import Tower.Cannon;
+import Tower.Cannon.Cannon;
 
-import Tower.Tesla;
+import Tower.Tesla.Tesla;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.scene.layout.*;
 
@@ -33,8 +34,10 @@ public class TowerDefense extends Application {
     public static  double X_UNIT = SCENE_WIDTH / NUMBER_OF_X_FIELDS;
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
-    Position spawn = new Position(-1, -1);
-    Position globalAim = new Position(16, 16);
+    Position spawn1 = new Position(4, 0);
+    Position spawn2 = new Position(6, 0);
+    Position globalAim1 = new Position(4, 16);
+    Position globalAim2 = new Position(6, 16);
 
     @Override
     public void start(Stage window) throws Exception {
@@ -67,13 +70,13 @@ public class TowerDefense extends Application {
             }
         }
 
-        Attacker a1 = new Attacker(this, spawn, globalAim, 0.01, 10);
-
-        if(a1.pathEmpty())
-            return;
+        Attacker a1 = new Attacker(this, spawn1, globalAim1, 0.01, 10);
+        Attacker a2 = new Attacker(this, spawn2, globalAim2, 0.01, 10);
 
         allAttackers.add(a1);
+        allAttackers.add(a2);
         root.getChildren().add(a1);
+        root.getChildren().add(a2);
 
 
 
@@ -134,14 +137,6 @@ public class TowerDefense extends Application {
             return allFields.get(p.getY()).get(p.getX());
     }
 
-    public Position getSpawn() {
-        return spawn;
-    }
-
-    public Position getGlobalAim() {
-        return globalAim;
-    }
-
     public boolean inBounds(int x, int y) {
         return ((y >= 0 && y < allFields.size()) && (x >= 0 && x < allFields.get(y).size()));
     }
@@ -167,6 +162,14 @@ public class TowerDefense extends Application {
 
     public ArrayList<Attacker> getAllAttackers(){
         return allAttackers;
+    }
+
+    public void addShot(Shape shot){
+        root.getChildren().add(shot);
+    }
+
+    public void removeShot(Shape shot){
+        root.getChildren().remove(shot);
     }
 
     public void Update(){

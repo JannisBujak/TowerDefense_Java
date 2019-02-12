@@ -1,7 +1,6 @@
 package Objects;
 
 import Pathfinding.*;
-import Tower.Base.*;
 import GUI.TowerDefense;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
@@ -69,10 +68,27 @@ public class Attacker extends Ellipse {
         super.setFill(color);
     }
 
-    public double getDistance(Field field){
-        double xDist = (getCenterX() - 0.5)/TowerDefense.X_UNIT - field.getX();
-        double yDist = (getCenterY() - 0.5)/TowerDefense.Y_UNIT - field.getY();
+    public double getxDistance(Position position){
+        return getCenterX()/TowerDefense.X_UNIT - (position.getX() + 0.5);
+    }
+
+    public double getyDistance(Position position){
+        return getCenterY()/TowerDefense.Y_UNIT - (position.getY() + 0.5);
+    }
+
+    public double getDistance(Position position){
+        double xDist = getxDistance(position);
+        double yDist = getyDistance(position);
         return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
+    }
+
+    public double getAngle(Position position){
+        double xDist = getxDistance(position);
+        double yDist = getyDistance(position);
+        double d = Math.acos((xDist + yDist) / Math.abs(Math.sqrt(Math.pow(xDist, 2) * Math.pow(yDist, 2))));
+        System.out.println(d);
+        return 0;
+        //return d;
     }
 
     public boolean pathEmpty(){

@@ -25,7 +25,7 @@ public class Field extends Position{
     }
 
     public void update() {
-        if(tower != null)   tower.update(this);
+        if(tower != null)   tower.update(this, td);
     }
 
     public void gotNeighbour(){

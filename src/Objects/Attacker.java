@@ -85,10 +85,9 @@ public class Attacker extends Ellipse {
     public double getAngle(Position position){
         double xDist = getxDistance(position);
         double yDist = getyDistance(position);
-        double d = Math.acos((xDist + yDist) / Math.abs(Math.sqrt(Math.pow(xDist, 2) * Math.pow(yDist, 2))));
-        System.out.println(d);
-        return 0;
-        //return d;
+        double d = Math.acos((yDist) / (Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))));
+        System.out.println(Math.toDegrees(d));
+        return Math.abs(Math.toDegrees(d));
     }
 
     public boolean pathEmpty(){

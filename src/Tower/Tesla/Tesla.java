@@ -40,6 +40,8 @@ public class Tesla extends Tower {
                     Thunderbolt thunderbolt = new Thunderbolt(field, a);
                     allThunderbolts.add(thunderbolt);
                     td.addShot(thunderbolt);
+                }else{
+                    allThunderbolts.get(ListOperations.getIndex(a, allThunderbolts)).update(field);
                 }
             }else{
                 int i = ListOperations.getIndex(a, allThunderbolts);

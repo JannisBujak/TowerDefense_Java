@@ -51,7 +51,7 @@ public class TowerDefense extends Application {
         initField(this, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
 
         //getFieldAt(0, 2).setTower(new Cannon());
-        Position[] positions = {    new Position(5,5)  };
+        Position[] positions = {    new Position(3,5)  };
 
         for(int i = 0; i < positions.length; i++){
             Position p = positions[i];
@@ -71,12 +71,9 @@ public class TowerDefense extends Application {
         }
 
         Attacker a1 = new Attacker(this, spawn1, globalAim1, 0.01, 10);
-        Attacker a2 = new Attacker(this, spawn2, globalAim2, 0.01, 10);
 
         allAttackers.add(a1);
-        allAttackers.add(a2);
         root.getChildren().add(a1);
-        root.getChildren().add(a2);
 
 
 

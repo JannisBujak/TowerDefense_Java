@@ -4,20 +4,27 @@ import GUI.TowerDefense;
 import GeneralOperations.ListOperations;
 import Objects.Attacker;
 import Objects.Field;
-import Pathfinding.Path;
 import Tower.Base.Tower;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
 public class Tesla extends Tower {
-    public static int price = 25;
-    public static Color color = Color.BLUE;
+
+    public static int PRICE = 25;
+    public static Color COLOR = Color.BLUE;
+    private static int COOLDOWN = 100;
+    private static int DAMAGE = 5;
+    private static int RANGE = 2;
+    private static double SLOW = 0.8;
+    private static int MAX_AIMS = 1;
+
+
 
     private ArrayList<Thunderbolt> allThunderbolts = new ArrayList<>();
 
     public Tesla(TowerDefense td){
-        super(5, 2, 0.1, price, color, td);
+        super(DAMAGE, RANGE, COOLDOWN, PRICE, COLOR, SLOW, MAX_AIMS, td);
     }
 
     @Override
@@ -25,31 +32,47 @@ public class Tesla extends Tower {
         return Tesla.getPriceOfTesla();
     }
 
+    public static double getCooldown() {
+        return COOLDOWN;
+    }
+
     public static int getPriceOfTesla() {
-        return price;
+        return PRICE;
     }
 
 
     public void update(Field field, TowerDefense towerDefense){
         ArrayList<Attacker> attackers =  super.td.getAllAttackers();
-        for(Attacker a : attackers){
+        for(int i = 0; i < attackers.size(); i++){
+            Attacker a = attackers.get(i);
 
             if(Math.abs(a.getDistance(field)) < range){
                 a.setColor(Color.GREY);
                 if(!ListOperations.inList(a, allThunderbolts)){
-                    Thunderbolt thunderbolt = new Thunderbolt(field, a);
-                    allThunderbolts.add(thunderbolt);
-                    td.addShot(thunderbolt);
+                    if(allThunderbolts.size() < MAX_AIMS){
+                        Thunderbolt thunderbolt = new Thunderbolt(field, a, this);
+                        allThunderbolts.add(thunderbolt);
+                        td.addShot(thunderbolt);
+                    }
                 }else{
-                    allThunderbolts.get(ListOperations.getIndex(a, allThunderbolts)).update(field);
+
+                    Thunderbolt t = allThunderbolts.get(ListOperations.getIndex(a, allThunderbolts));
+                    t.update(field);
+                    if(a.getHealtPoints() <= 0){
+                        td.removeShape(t);
+                        allThunderbolts.remove(t);
+                        td.removeShape(a);
+                        td.getAllAttackers().remove(i);
+                        continue;
+                    }
                 }
             }else{
-                int i = ListOperations.getIndex(a, allThunderbolts);
+                int listIndex = ListOperations.getIndex(a, allThunderbolts);
                 a.setColor(Color.GREEN);
-                if(i >= 0){
-                    Thunderbolt t = allThunderbolts.get(i);
-                    td.removeShot(t);
-                    allThunderbolts.remove(i);
+                if(listIndex >= 0){
+                    Thunderbolt t = allThunderbolts.get(listIndex);
+                    td.removeShape(t);
+                    allThunderbolts.remove(listIndex);
                 }
             }
         }

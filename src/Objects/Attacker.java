@@ -11,10 +11,10 @@ public class Attacker extends Ellipse {
     private Path path;
     private boolean reachedEnd;
     private double speed;
-    private double healthPoints;
+    private int healthPoints;
     private TowerDefense td;
 
-    public Attacker(TowerDefense td, Position start, Position destination, double speed, double healthPoints){
+    public Attacker(TowerDefense td, Position start, Position destination, double speed, int healthPoints){
         super(TowerDefense.X_UNIT / 2, TowerDefense.Y_UNIT / 2);
         setFill(Color.GREEN);
         setCenterX((start.getX() + 0.5) * TowerDefense.X_UNIT);
@@ -86,11 +86,19 @@ public class Attacker extends Ellipse {
         double xDist = getxDistance(position);
         double yDist = getyDistance(position);
         double d = Math.acos((yDist) / (Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))));
-        System.out.println(Math.toDegrees(d));
-        return Math.abs(Math.toDegrees(d));
+        if(xDist < 0)   return Math.abs(Math.toDegrees(d));
+        else            return -Math.abs(Math.toDegrees(d));
     }
 
     public boolean pathEmpty(){
         return this.path == null;
+    }
+
+    public void damage(double damageValue) {
+        this.healthPoints -= damageValue;
+    }
+
+    public int getHealtPoints() {
+        return healthPoints;
     }
 }

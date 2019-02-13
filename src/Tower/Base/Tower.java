@@ -14,16 +14,14 @@ public abstract class Tower {
     protected int price;
     protected Color color;
     protected double slow;
-    protected int maxAims;
 
-    public Tower(double damage, double range, double cooldown, int price, Color color, double slow, int maxAims, TowerDefense td){
+    public Tower(double damage, double range, double cooldown, int price, Color color, double slow, TowerDefense td){
         this.damage = damage;
         this.range = range;
         this.cooldown = cooldown;
         this.price = price;
         this.color = color;
         this.slow = slow;
-        this.maxAims = maxAims;
         this.td = td;
     }
 

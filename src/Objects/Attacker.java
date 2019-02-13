@@ -36,6 +36,7 @@ public class Attacker extends Ellipse {
 
     public void update() {
         //path.print();
+
         Position next = path.getFirst();
         double xMove = (next.getX() - pos.getX());
         double yMove = (next.getY() - pos.getY());
@@ -46,7 +47,7 @@ public class Attacker extends Ellipse {
         {
             pos.setX(next.getX());
             pos.setY(next.getY());
-            path.deleteFirst();
+            path.update();
             if(path.empty()){
                 this.reachedEnd = true;
             }
@@ -88,10 +89,6 @@ public class Attacker extends Ellipse {
         double d = Math.acos((yDist) / (Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))));
         if(xDist < 0)   return Math.abs(Math.toDegrees(d));
         else            return -Math.abs(Math.toDegrees(d));
-    }
-
-    public boolean pathEmpty(){
-        return this.path == null;
     }
 
     public void damage(double damageValue) {

@@ -7,8 +7,10 @@ import Objects.Field;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Path {
+    private double length;
     Position currentPos;
     Position aim;
     TowerDefense td;
@@ -20,6 +22,9 @@ public class Path {
         this.aim = aim;
         this.td = td;
         fields = PathFromCurrentToAim(start, aim, td);
+        this.length = ListOperations.getWPbyPos(aim, fields).getDistanceTraveled();
+        System.out.println(length);
+
     }
 
 
@@ -126,6 +131,7 @@ public class Path {
 
         //TODO Colorize
         //Path.setColors(openList, closedList, way, td);
+
         return way;
     }
 
@@ -147,5 +153,16 @@ public class Path {
 
     public void deleteFirst(){
         fields.remove(0);
+    }
+
+    public void update(){
+        fields = PathFromCurrentToAim(currentPos, aim, td);
+        Waypoint w = ListOperations.getWPbyPos(aim, fields);
+        if(w != null)   this.length  = w.getDistanceTraveled();
+        System.out.println(length);
+    }
+
+    public double getLength() {
+        return length;
     }
 }

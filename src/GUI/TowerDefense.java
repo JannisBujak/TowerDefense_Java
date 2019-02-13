@@ -53,12 +53,9 @@ public class TowerDefense extends Application {
         //getFieldAt(0, 2).setTower(new Cannon());
         Position[] positions = {    new Position(5,5)  };
 
-        if(addTower(5, 5, new Tesla(this))){
+        if(addTower(5, 5, new Cannon(this))){
             System.out.println(coins);
-        }else{
-                System.out.println("Error");
-            }
-
+        }
 
         Attacker a1 = new Attacker(this, spawn1, globalAim1, 0.08, 100);
 
@@ -145,10 +142,10 @@ public class TowerDefense extends Application {
         if(t.getPrice() < this.coins){
             this.coins -= t.getPrice();
             field.setTower(t);
+            System.out.println(coins);
             return true;
-        }else{
-            return false;
         }
+        return false;
     }
 
     public ArrayList<Attacker> getAllAttackers(){
@@ -166,9 +163,8 @@ public class TowerDefense extends Application {
     public void Update(){
         for (int i = allAttackers.size() - 1; i >= 0; i--){
             Attacker a = allAttackers.get(i);
-            if(!a.reachedEnd()){
-                a.update();
-            }else{
+            a.update();
+            if(a.reachedEnd()){
                 allAttackers.remove(a);
                 root.getChildren().remove(a);
             }

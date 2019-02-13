@@ -159,7 +159,6 @@ public class Path {
         fields = PathFromCurrentToAim(currentPos, aim, td);
         Waypoint w = ListOperations.getWPbyPos(aim, fields);
         if(w != null)   this.length  = w.getDistanceTraveled();
-        System.out.println(length);
     }
 
     public double getLength() {

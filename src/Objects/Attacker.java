@@ -98,4 +98,8 @@ public class Attacker extends Ellipse {
     public int getHealtPoints() {
         return healthPoints;
     }
+
+    public double getRestLength(){
+        return path.getLength() - getDistance(this.path.getFirst());
+    }
 }

@@ -31,6 +31,10 @@ public abstract class Tower {
         return color;
     }
 
+    protected double getCooldown(){
+        return cooldown;
+    }
+
     public abstract int getPrice();
 
     public double getDamageValue(){

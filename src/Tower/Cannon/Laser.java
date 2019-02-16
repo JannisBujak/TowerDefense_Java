@@ -6,35 +6,16 @@ import Pathfinding.Position;
 import Tower.Base.Shot;
 import Tower.Base.Tower;
 import Tower.Tesla.Tesla;
-import javafx.scene.shape.Ellipse;
+import javafx.scene.paint.Color;
 
-public class Laser extends Ellipse implements Shot {
-    private Attacker aim;
-    private double  timestamp;
-    private Tower tower;
+public class Laser extends Shot {
+
+    private static double width = TowerDefense.X_UNIT;
 
     public Laser(Position position, Attacker attacker, Tower tower) {
-        super();
-        this.tower = tower;
-        this.aim = attacker;
+        super(position, attacker, width, tower);
+        super.setFill(Color.RED);
+
         update(position);
-    }
-
-    public void update(Position position){
-        setCenterX((position.getX() + 0.5) * TowerDefense.X_UNIT + aim.getxDistance(position)/2 * TowerDefense.X_UNIT);
-        setCenterY((position.getY() + 0.5) * TowerDefense.Y_UNIT + aim.getyDistance(position)/2 * TowerDefense.Y_UNIT);
-        setRadiusX(TowerDefense.X_UNIT / 4);
-        setRadiusY(Math.abs(aim.getyDistance(position) * TowerDefense.Y_UNIT / 2));
-        setRotate(aim.getAngle(position));
-
-        if(timestamp < System.currentTimeMillis()){
-            timestamp = System.currentTimeMillis() + Tesla.getCooldown();
-            aim.damage(tower.getDamageValue());
-            //System.out.println(aim.getHealtPoints());
-        }
-    }
-
-    public Attacker getAim(){
-        return aim;
     }
 }

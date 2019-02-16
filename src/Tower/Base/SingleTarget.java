@@ -21,17 +21,44 @@ public class SingleTarget extends Tower {
     @Override
     public void update(Field field, TowerDefense towerDefense) {
         ArrayList<Attacker> attackers =  super.td.getAllAttackers();
+        Attacker potAttacker = null;
         for(int i = 0; i < attackers.size(); i++){
             Attacker a = attackers.get(i);
 
-            Attacker potAttacker = null;
             if(Math.abs(a.getDistance(field)) < range){
-                if(potAttacker == null || a.getRestLength() < a.getRestLength()){
-                    
+                if(potAttacker == null || a.getRestLength() < potAttacker.getRestLength()){
+                    potAttacker = a;
                 }
             }
-            System.out.println(a.getHealtPoints());
         }
+        //if(potAttacker == null) return;
+
+        if(laser == null && potAttacker != null)
+        {
+            laser = new Laser(field, potAttacker, this);
+            td.addShot(laser);
+        }
+        if(laser != null) {
+            if (laser.getAim().getHealtPoints() <= 0) {
+                td.getAllAttackers().remove(laser.getAim());
+                td.removeShape(laser.getAim());
+                td.removeShape(laser);
+                laser = null;
+            } else if (laser.getAim() != potAttacker) {
+                laser.resetAim(potAttacker);
+            }
+        }
+        if (laser != null){
+            laser.update(field);
+            System.out.println(laser.getAim().getHealtPoints());
+        }
+
+
+
+            //TODO
+            // check if potAttacker==laser.aim changed
+            //  call laser.update
+
     }
 
     @Override

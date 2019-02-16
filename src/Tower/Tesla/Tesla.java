@@ -28,10 +28,6 @@ public class Tesla extends Multitarget {
         return Tesla.getPriceOfTesla();
     }
 
-    public static double getCooldown() {
-        return COOLDOWN;
-    }
-
     public static int getPriceOfTesla() {
         return PRICE;
     }

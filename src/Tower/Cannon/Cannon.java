@@ -11,7 +11,7 @@ public class Cannon extends SingleTarget {
     public static int PRICE = 15;
     public static Color COLOR = Color.RED;
 
-    private static int COOLDOWN = 500;
+    private static int COOLDOWN = 1000;
     private static int DAMAGE = 50;
     private static int RANGE = 4;
     private static double SLOW = 1;

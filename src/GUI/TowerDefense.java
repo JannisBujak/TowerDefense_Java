@@ -1,6 +1,5 @@
 package GUI;
 import Pathfinding.Position;
-import Tower.Base.Shot;
 import Tower.Base.Tower;
 import Tower.Cannon.Cannon;
 
@@ -152,8 +151,8 @@ public class TowerDefense extends Application {
         return allAttackers;
     }
 
-    public void addShot(Shape shot){
-        root.getChildren().add(shot);
+    public void addShot(Shape shape){
+        root.getChildren().add(shape);
     }
 
     public void removeShape(Shape shape){

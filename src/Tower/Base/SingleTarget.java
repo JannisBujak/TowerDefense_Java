@@ -31,23 +31,21 @@ public class SingleTarget extends Tower {
                 }
             }
         }
-        //if(potAttacker == null) return;
-
-        if(laser == null && potAttacker != null)
-        {
-            laser = new Laser(field, potAttacker, this);
-            td.addShot(laser);
-        }
-        if(laser != null) {
-            if (laser.getAim().getHealtPoints() <= 0) {
+        if(laser != null){
+            if((potAttacker == null || laser.getAim().getHealtPoints() <= 0)){
                 td.getAllAttackers().remove(laser.getAim());
                 td.removeShape(laser.getAim());
                 td.removeShape(laser);
                 laser = null;
-            } else if (laser.getAim() != potAttacker) {
+            }else if(potAttacker != null)
+            {
                 laser.resetAim(potAttacker);
             }
+        }else if(laser == null && potAttacker != null){
+            laser = new Laser(field, potAttacker, this);
+            td.addShot(laser);
         }
+
         if (laser != null){
             laser.update(field);
             System.out.println(laser.getAim().getHealtPoints());

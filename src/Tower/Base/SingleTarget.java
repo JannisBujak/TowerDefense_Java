@@ -25,21 +25,25 @@ public class SingleTarget extends Tower {
         for(int i = 0; i < attackers.size(); i++){
             Attacker a = attackers.get(i);
 
-            if(Math.abs(a.getDistance(field)) < range){
+            if(Math.abs(a.getDistance(field)) <= range){
                 if(potAttacker == null || a.getRestLength() < potAttacker.getRestLength()){
                     potAttacker = a;
                 }
             }
         }
         if(laser != null){
-            if((potAttacker == null || laser.getAim().getHealtPoints() <= 0)){
-                td.getAllAttackers().remove(laser.getAim());
-                td.removeShape(laser.getAim());
+            if(potAttacker != null){
+                if(potAttacker != laser.getAim()){
+                    System.out.println(laser.getAim().getRestLength() + " - " + potAttacker.getRestLength());
+                    laser.resetAim(potAttacker);
+                }
+            }else{
+                if(laser.getAim().getHealtPoints() <= 0){
+                    td.getAllAttackers().remove(laser.getAim());
+                    td.removeShape(laser.getAim());
+                }
                 td.removeShape(laser);
                 laser = null;
-            }else if(potAttacker != null)
-            {
-                laser.resetAim(potAttacker);
             }
         }else if(laser == null && potAttacker != null){
             laser = new Laser(field, potAttacker, this);
@@ -48,7 +52,7 @@ public class SingleTarget extends Tower {
 
         if (laser != null){
             laser.update(field);
-            System.out.println(laser.getAim().getHealtPoints());
+            //System.out.println(laser.getAim().getHealtPoints());
         }
 
 

@@ -56,12 +56,12 @@ public class TowerDefense extends Application {
             System.out.println(coins);
         }
 
-        Attacker a1 = new Attacker(this, spawn1, globalAim1, 0.08, 100);
+        Attacker a1 = new Attacker(this, spawn1, globalAim1, 0.08, 100000);
 
         allAttackers.add(a1);
         root.getChildren().add(a1);
 
-        Attacker a2 = new Attacker(this, spawn2, globalAim2, 0.1, 100);
+        Attacker a2 = new Attacker(this, spawn2, globalAim2, 0.1, 100000);
 
         allAttackers.add(a2);
         root.getChildren().add(a2);

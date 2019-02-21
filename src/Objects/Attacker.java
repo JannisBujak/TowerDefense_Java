@@ -100,6 +100,6 @@ public class Attacker extends Ellipse {
     }
 
     public double getRestLength(){
-        return path.getLength() - getDistance(this.path.getFirst());
+        return path.getLength() + getDistance(this.path.getFirst());
     }
 }

@@ -2,7 +2,7 @@ package Tower.Base;
 
 import GUI.TowerDefense;
 import GeneralOperations.ListOperations;
-import Objects.Attacker;
+import Attackers.Attacker;
 import Objects.Field;
 import Tower.Tesla.Thunderbolt;
 import javafx.scene.paint.Color;

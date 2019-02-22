@@ -1,5 +1,6 @@
-package Objects;
+package Attackers;
 
+import Objects.Vector;
 import Pathfinding.*;
 import GUI.TowerDefense;
 import javafx.scene.paint.Color;

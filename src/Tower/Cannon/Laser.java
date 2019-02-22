@@ -1,11 +1,10 @@
 package Tower.Cannon;
 
 import GUI.TowerDefense;
-import Objects.Attacker;
+import Attackers.Attacker;
 import Pathfinding.Position;
 import Tower.Base.Shot;
 import Tower.Base.Tower;
-import Tower.Tesla.Tesla;
 import javafx.scene.paint.Color;
 
 public class Laser extends Shot {

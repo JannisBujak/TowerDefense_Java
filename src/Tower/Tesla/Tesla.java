@@ -1,13 +1,8 @@
 package Tower.Tesla;
 
 import GUI.TowerDefense;
-import GeneralOperations.ListOperations;
-import Objects.Attacker;
-import Objects.Field;
 import Tower.Base.Multitarget;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
 
 public class Tesla extends Multitarget {
 

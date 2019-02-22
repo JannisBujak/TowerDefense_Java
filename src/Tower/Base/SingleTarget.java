@@ -1,11 +1,9 @@
 package Tower.Base;
 
 import GUI.TowerDefense;
-import GeneralOperations.ListOperations;
-import Objects.Attacker;
+import Attackers.Attacker;
 import Objects.Field;
 import Tower.Cannon.Laser;
-import Tower.Tesla.Thunderbolt;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -34,7 +32,6 @@ public class SingleTarget extends Tower {
         if(laser != null){
             if(potAttacker != null){
                 if(potAttacker != laser.getAim()){
-                    System.out.println(laser.getAim().getRestLength() + " - " + potAttacker.getRestLength());
                     laser.resetAim(potAttacker);
                 }
             }else{

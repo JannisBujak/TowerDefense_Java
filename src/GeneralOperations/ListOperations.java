@@ -1,6 +1,6 @@
 package GeneralOperations;
 
-import Objects.Attacker;
+import Attackers.Attacker;
 import Pathfinding.Position;
 import Pathfinding.Waypoint;
 import Tower.Tesla.Thunderbolt;

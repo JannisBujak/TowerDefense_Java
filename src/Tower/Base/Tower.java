@@ -1,9 +1,7 @@
 package Tower.Base;
 
 import GUI.TowerDefense;
-import Objects.Attacker;
 import Objects.Field;
-import Tower.*;
 import javafx.scene.paint.Color;
 
 public abstract class Tower {

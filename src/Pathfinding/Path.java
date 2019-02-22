@@ -22,9 +22,10 @@ public class Path {
         this.aim = aim;
         this.td = td;
         fields = PathFromCurrentToAim(start, aim, td);
-        this.length = ListOperations.getWPbyPos(aim, fields).getDistanceTraveled();
-        System.out.println(length);
 
+        Waypoint w = ListOperations.getWPbyPos(aim, fields);
+        this.length = w.getDistanceTraveled();
+        System.out.println(length);
     }
 
 

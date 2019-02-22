@@ -1,9 +1,11 @@
 package GUI;
+import Attackers.Attacker;
+import Attackers.Attacker1.Attacker1;
+import Leveldesign.LevelReader;
 import Pathfinding.Position;
 import Tower.Base.Tower;
 import Tower.Cannon.Cannon;
 
-import Tower.Tesla.Tesla;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -33,10 +35,8 @@ public class TowerDefense extends Application {
     public static  double X_UNIT = SCENE_WIDTH / NUMBER_OF_X_FIELDS;
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
-    Position spawn1 = new Position(4, 0);
-    Position spawn2 = new Position(6, 0);
-    Position globalAim1 = new Position(4, 16);
-    Position globalAim2 = new Position(6, 16);
+    Position spawn = new Position(4, 0);
+    Position globalAim = new Position(4, 16);
 
     @Override
     public void start(Stage window) throws Exception {
@@ -49,22 +49,18 @@ public class TowerDefense extends Application {
 
         initField(this, root, NUMBER_OF_X_FIELDS, NUMBER_OF_Y_FIELDS);
 
-        //getFieldAt(0, 2).setTower(new Cannon());
+
+        LevelReader levelReader = new LevelReader(this);
+
         Position[] positions = {    new Position(5,5)  };
 
         if(addTower(5, 5, new Cannon(this))){
             System.out.println(coins);
         }
 
-        Attacker a1 = new Attacker(this, spawn1, globalAim1, 0.08, 100000);
-
+        Attacker a1 = new Attacker1(this, spawn, globalAim);
         allAttackers.add(a1);
         root.getChildren().add(a1);
-
-        Attacker a2 = new Attacker(this, spawn2, globalAim2, 0.1, 100000);
-
-        allAttackers.add(a2);
-        root.getChildren().add(a2);
 
 
         AnimationTimer timer = new AnimationTimer() {

@@ -1,11 +1,9 @@
 package Tower.Base;
 
 import GUI.TowerDefense;
-import Objects.Attacker;
+import Attackers.Attacker;
 import Pathfinding.Position;
-import Tower.Tesla.Tesla;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Shape;
 
 public abstract class Shot extends Ellipse {
 

@@ -9,11 +9,12 @@ import javafx.scene.paint.Color;
 
 public class Laser extends Shot {
 
-    private static double width = TowerDefense.X_UNIT;
+    private static double width = TowerDefense.X_UNIT/4;
+    private static Color color = Color.RED;
 
     public Laser(Position position, Attacker attacker, Tower tower) {
         super(position, attacker, width, tower);
-        super.setFill(Color.RED);
+        super.setFill(color);
 
         update(position);
     }

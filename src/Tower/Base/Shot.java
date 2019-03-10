@@ -25,7 +25,7 @@ public abstract class Shot extends Ellipse {
         setCenterX((position.getX() + 0.5) * TowerDefense.X_UNIT + aim.getxDistance(position)/2 * TowerDefense.X_UNIT);
         setCenterY((position.getY() + 0.5) * TowerDefense.Y_UNIT + aim.getyDistance(position)/2 * TowerDefense.Y_UNIT);
         setRadiusX(width);
-        setRadiusY(Math.abs(aim.getyDistance(position) * TowerDefense.Y_UNIT / 2));
+        setRadiusY(Math.abs(aim.getDistance(position) * TowerDefense.Y_UNIT / 2));
         setRotate(aim.getAngle(position));
 
         if(timestamp < System.currentTimeMillis()){

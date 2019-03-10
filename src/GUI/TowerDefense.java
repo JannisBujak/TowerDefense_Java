@@ -6,6 +6,7 @@ import Pathfinding.Position;
 import Tower.Base.Tower;
 import Tower.Cannon.Cannon;
 
+import Tower.Tesla.Tesla;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -35,8 +36,8 @@ public class TowerDefense extends Application {
     public static  double X_UNIT = SCENE_WIDTH / NUMBER_OF_X_FIELDS;
     public static  double Y_UNIT = SCENE_HEIGHT / NUMBER_OF_Y_FIELDS;
 
-    Position spawn = new Position(4, 0);
-    Position globalAim = new Position(4, 16);
+    Position spawn = new Position(3, 0);
+    Position globalAim = new Position(3, 16);
 
     @Override
     public void start(Stage window) throws Exception {
